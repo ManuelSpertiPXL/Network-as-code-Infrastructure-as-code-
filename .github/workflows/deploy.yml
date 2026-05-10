@@ -24,6 +24,6 @@ jobs:
     - name: Run script
       run: python scripts/final_script.py
       env:
-        ROUTER_IP: ${{ secrets.ROUTER_IP }}
-        ROUTER_USER: ${{ secrets.ROUTER_USER }}
-        ROUTER_PASS: ${{ secrets.ROUTER_PASS }}
+        ROUTER_IP: ${{ secrets.AZ_ROUTER_IP }}
+        ROUTER_USER: ${{ secrets.AZ_ROUTER_USER }}
+        ROUTER_PASS: ${{ secrets.AZ_ROUTER_PASS }}
