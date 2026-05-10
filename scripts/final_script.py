@@ -12,8 +12,6 @@ paramiko.transport.Transport._preferred_kex = (
 
 paramiko.transport.Transport._preferred_keys = (
     "ssh-rsa",
-    "rsa-sha2-256",
-    "rsa-sha2-512",
 )
 
 # 🔹 meerdere routers (kan je uitbreiden)
@@ -23,6 +21,7 @@ routers = [
         "host": os.getenv("AZ_ROUTER_IP"),
         "username": os.getenv("AZ_ROUTER_USER"),
         "password": os.getenv("AZ_ROUTER_PASS"),
+        "fast_cli": False
     }
 ]
 
