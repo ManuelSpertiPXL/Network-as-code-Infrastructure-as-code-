@@ -21,24 +21,24 @@ with manager.connect(
     look_for_keys=False
 ) as m:
 
-    print("✅ NETCONF verbinding succesvol")
+    print("NETCONF verbinding succesvol")
 
     # 🔹 config laden
     with open("config/netconf_loopback.xml") as f:
         config = f.read()
 
     # 🔹 config toepassen
-    print("🚀 Config pushen...")
+    print("Config pushen...")
     response = m.edit_config(target="running", config=config)
     print(response)
 
     # 🔹 verify (running config ophalen)
-    print("\n🔎 Verificatie (running-config):")
+    print("\nVerificatie (running-config):")
     config_state = m.get_config(source="running")
     
     if "Loopback10" in config_state.data_xml:
-        print("✅ Loopback10 succesvol aanwezig!")
+        print("Loopback10 succesvol aanwezig!")
     else:
-        print("❌ Loopback NIET gevonden!")
+        print("Loopback NIET gevonden!")
 
-print("✅ Script volledig uitgevoerd")
+print("Script volledig uitgevoerd")
