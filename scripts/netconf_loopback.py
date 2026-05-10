@@ -9,7 +9,7 @@ router_ip = "192.168.56.105"
 username = "cisco"
 password = "cisco123!"
 
-print(f"🔌 Verbinden met {router_ip}")
+print(f"Verbinden met {router_ip}")
 
 with manager.connect(
     host=router_ip,
