@@ -1,0 +1,5 @@
+
+interface GigabitEthernet1
+description Configured via Netmiko
+ip address 10.0.0.1 255.255.255.0
+no shutdown
