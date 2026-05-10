@@ -10,20 +10,44 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    # 1️⃣ Repo ophalen
     - name: Checkout repo
       uses: actions/checkout@v3
 
+    # 2️⃣ Python installeren
     - name: Setup Python
       uses: actions/setup-python@v4
       with:
         python-version: '3.10'
 
+    # 3️⃣ Dependencies installeren
     - name: Install dependencies
       run: pip install -r requirements.txt
 
-    - name: Run script
+    # 4️⃣ 🔥 SSH compatibiliteit fix (BELANGRIJK!)
+    - name: Allow legacy SSH algorithms
+      run: |
+        mkdir -p ~/.ssh
+        echo "Host *" >> ~/.ssh/config
+        echo "    KexAlgorithms +diffie-hellman-group14-sha1" >> ~/.ssh/config
+        echo "    HostKeyAlgorithms +ssh-rsa" >> ~/.ssh/config
+        echo "    PubkeyAcceptedAlgorithms +ssh-rsa" >> ~/.ssh/config
+
+    # 5️⃣ Debug (optioneel maar handig)
+    - name: Show files
+      run: ls -R
+
+    # 6️⃣ Script uitvoeren
+    - name: Run Netmiko script
       run: python scripts/final_script.py
       env:
         AZ_ROUTER_IP: ${{ secrets.AZ_ROUTER_IP }}
         AZ_ROUTER_USER: ${{ secrets.AZ_ROUTER_USER }}
         AZ_ROUTER_PASS: ${{ secrets.AZ_ROUTER_PASS }}
+
+    # 7️⃣ (OPTIONEEL) backups downloaden
+    - name: Upload backups
+      uses: actions/upload-artifact@v4
+      with:
+        name: backups
+        path: backups/
