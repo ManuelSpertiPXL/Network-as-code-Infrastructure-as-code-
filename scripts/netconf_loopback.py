@@ -24,7 +24,7 @@ with manager.connect(
     print("✅ NETCONF verbinding succesvol")
 
     # 🔹 config laden
-    with open("config/netconfloopback.xml") as f:
+    with open("config/netconf_loopback.xml") as f:
         config = f.read()
 
     # 🔹 config toepassen
