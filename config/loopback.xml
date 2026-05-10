@@ -2,13 +2,13 @@
   <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
     <interface>
       <Loopback>
-        <name>11</name>
-        <description>Configured via NETCONF</description>
+        <name>10</name>
+        <description>Loopback via NETCONF</description>
         <ip>
           <address>
             <primary>
-              <address>200.17.3.1</address>
-              <mask>255.255.255.0</mask>
+              <address>10.10.10.1</address>
+              <mask>255.255.255.255</mask>
             </primary>
           </address>
         </ip>

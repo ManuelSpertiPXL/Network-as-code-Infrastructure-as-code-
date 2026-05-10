@@ -1,11 +1,15 @@
 from netmiko import ConnectHandler
 import os
 
+router_ip = "40.113.133.31"
+username = "cisco"
+password = "cisco123!"
+
 router = {
     "device_type": "cisco_ios",
-    "host": os.getenv("AZ_ROUTER_IP"),
-    "username": os.getenv("AZ_ROUTER_USER"),
-    "password": os.getenv("AZ_ROUTER_PASS"),
+    "host": router_ip,
+    "username": username,
+    "password": password,
 }
 
 print(f"🔌 Verbinden met {router['host']}")
