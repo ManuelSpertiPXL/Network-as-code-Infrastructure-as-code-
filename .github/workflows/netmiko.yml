@@ -1,0 +1,34 @@
+name: Netmiko Deploy
+
+on:
+  workflow_dispatch
+
+jobs:
+  netmiko:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+
+    - name: Install dependencies
+      run: pip install -r requirements-netmiko.txt
+
+    # ⚠️ SSH legacy fix (nodig voor CSR)
+    - name: Allow legacy SSH
+      run: |
+        mkdir -p ~/.ssh
+        echo "Host *" >> ~/.ssh/config
+        echo "    KexAlgorithms +diffie-hellman-group14-sha1" >> ~/.ssh/config
+        echo "    HostKeyAlgorithms +ssh-rsa" >> ~/.ssh/config
+        echo "    PubkeyAcceptedAlgorithms +ssh-rsa" >> ~/.ssh/config
+
+    - name: Run netmiko script
+      run: python scripts/netmiko_script.py
+      env:
+        AZ_ROUTER_IP: ${{ secrets.AZ_ROUTER_IP }}
+        AZ_ROUTER_USER: ${{ secrets.AZ_ROUTER_USER }}
+        AZ_ROUTER_PASS: ${{ secrets.AZ_ROUTER_PASS }}

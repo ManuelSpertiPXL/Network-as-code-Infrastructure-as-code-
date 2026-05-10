@@ -1,0 +1,25 @@
+name: NETCONF Deploy
+
+on:
+  workflow_dispatch
+
+jobs:
+  netconf:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+
+    - name: Install dependencies
+      run: pip install -r requirements-netconf.txt
+
+    - name: Run NETCONF script
+      run: python scripts/netconf_script.py
+      env:
+        AZ_ROUTER_IP: ${{ secrets.AZ_ROUTER_IP }}
+        AZ_ROUTER_USER: ${{ secrets.AZ_ROUTER_USER }}
+        AZ_ROUTER_PASS: ${{ secrets.AZ_ROUTER_PASS }}
