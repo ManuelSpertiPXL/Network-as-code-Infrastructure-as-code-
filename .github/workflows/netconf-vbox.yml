@@ -16,7 +16,7 @@ jobs:
 
 
     - name: Install dependencies
-      run: python -m pip install -r netconf-vbox-requirements.txt
+      run: pip install -r netconf-vbox-requirements.txt
 
     - name: Run NETCONF script
       run: python scripts/netconf_loopback.py
