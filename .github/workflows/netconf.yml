@@ -15,7 +15,7 @@ jobs:
         python-version: '3.10'
 
     - name: Install dependencies
-      run: pip install -r requirements-netconf.txt
+      run: pip install -r netconf-requirements.txt
 
     - name: Run NETCONF script
       run: python scripts/netconf_script.py
