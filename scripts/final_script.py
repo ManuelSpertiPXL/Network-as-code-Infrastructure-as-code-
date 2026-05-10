@@ -1,6 +1,20 @@
 from netmiko import ConnectHandler
 import os
+import paramiko
 from datetime import datetime
+
+
+# ✅ forceer oude SSH settings
+paramiko.transport.Transport._preferred_kex = (
+    "diffie-hellman-group14-sha1",
+    "diffie-hellman-group1-sha1",
+)
+
+paramiko.transport.Transport._preferred_keys = (
+    "ssh-rsa",
+    "rsa-sha2-256",
+    "rsa-sha2-512",
+)
 
 # 🔹 meerdere routers (kan je uitbreiden)
 routers = [
