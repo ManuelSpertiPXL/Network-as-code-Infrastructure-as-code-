@@ -27,7 +27,7 @@ jobs:
         echo "    PubkeyAcceptedAlgorithms +ssh-rsa" >> ~/.ssh/config
 
     - name: Run netmiko script
-      run: python scripts/netmiko_script.py
+      run: python scripts/netmiko_final.py
       env:
         AZ_ROUTER_IP: ${{ secrets.AZ_ROUTER_IP }}
         AZ_ROUTER_USER: ${{ secrets.AZ_ROUTER_USER }}
