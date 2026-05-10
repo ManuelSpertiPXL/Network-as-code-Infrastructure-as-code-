@@ -1,0 +1,30 @@
+name: NETCONF Loopback Deploy
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v3
+
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+
+    - name: Install dependencies
+      run: pip install -r netconf-vbox-requirements.txt
+
+    - name: Run NETCONF script
+      run: python scripts/netconf_loopback.py
+      env:
+        ROUTER_IP: ${{ secrets.AZ_ROUTER_IP }}
+        ROUTER_USER: ${{ secrets.AZ_ROUTER_USER }}
+        ROUTER_PASS: ${{ secrets.AZ_ROUTER_PASS }}
