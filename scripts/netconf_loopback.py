@@ -6,9 +6,10 @@ import re
 username = os.getenv("ROUTER_USER")
 password = os.getenv("ROUTER_PASS") """
 
-router_ip = "192.168.56.105"
-username = "cisco"
-password = "cisco123!"
+""" router_ip = "192.168.56.105" """
+router_ip = "172.17.3.1"
+username = "manuel"
+password = "student@pxl!"
 
 print(f"Verbinden met {router_ip}")
 
