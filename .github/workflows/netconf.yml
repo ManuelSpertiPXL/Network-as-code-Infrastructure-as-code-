@@ -8,7 +8,7 @@ on:
 
 jobs:
   netconf:
-    runs-on: self-hosted
+    runs-on: Ubuntu-latest
 
     steps:
     - name: Checkout repo
