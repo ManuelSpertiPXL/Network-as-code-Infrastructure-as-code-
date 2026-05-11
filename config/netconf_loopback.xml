@@ -2,7 +2,7 @@
   <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
     <interface>
       <Loopback>
-        <name>10</name>
+        <name>33</name>
         <description>Loopback via NETCONF</description>
         <ip>
           <address>
