@@ -2,12 +2,12 @@
   <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
     <interface>
       <Loopback>
-        <name>67</name>
-        <description>Loopback via NETCONF</description>
+        <name>69</name>
+        <description>Loopback via NETCONF maar via python running niet git</description>
         <ip>
           <address>
             <primary>
-              <address>67.67.67.67</address>
+              <address>69.69.69.69</address>
               <mask>255.255.255.255</mask>
             </primary>
           </address>
