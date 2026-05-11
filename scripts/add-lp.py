@@ -16,10 +16,10 @@ def push_config():
     print("===============")
 
     with manager.connect(
-        host="192.168.56.105",
+        host="172.17.3.1",
         port=830,
-        username="cisco",
-        password="cisco123!",
+        username="manuel",
+        password="student@pxl!",
         hostkey_verify=False,
         device_params={"name": "iosxe"}
     ) as m:
