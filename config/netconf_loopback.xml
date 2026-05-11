@@ -2,12 +2,12 @@
   <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
     <interface>
       <Loopback>
-        <name>33</name>
+        <name>11</name>
         <description>Loopback via NETCONF</description>
         <ip>
           <address>
             <primary>
-              <address>10.10.10.1</address>
+              <address>11.11.11.11</address>
               <mask>255.255.255.255</mask>
             </primary>
           </address>
