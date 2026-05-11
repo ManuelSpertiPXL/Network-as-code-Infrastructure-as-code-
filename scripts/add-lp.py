@@ -24,14 +24,14 @@ def push_config():
         device_params={"name": "iosxe"}
     ) as m:
 
-        print("✅ Connected")
+        print("Connected")
 
         response = m.edit_config(
             target="running",
             config=payload
         )
 
-        print("✅ DONE")
+        print("DONE")
         print(response)
 
 if __name__ == "__main__":
