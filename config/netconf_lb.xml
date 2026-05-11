@@ -1,0 +1,18 @@
+<config>
+  <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
+    <interface>
+      <Loopback>
+        <name>10</name>
+        <description>WORKING TEST 2</description>
+        <ip>
+          <address>
+            <primary>
+              <address>192.168.20.111</address>
+              <mask>255.255.255.0</mask>
+            </primary>
+          </address>
+        </ip>
+      </Loopback>
+    </interface>
+  </native>
+</config>

@@ -1,18 +1,23 @@
-<config>
-  <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
-    <interface>
-      <Loopback>
-        <name>69</name>
-        <description>Loopback via NETCONF maar via python running niet git</description>
-        <ip>
-          <address>
-            <primary>
-              <address>69.69.69.69</address>
-              <mask>255.255.255.255</mask>
-            </primary>
-          </address>
-        </ip>
-      </Loopback>
-    </interface>
-  </native>
-</config>
+<edit-config xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">
+    <target>
+      <running/>
+    </target>
+    <config>
+      <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
+        <interface>
+          <Loopback>
+            <name>100</name>
+            <description>99 luftballoons</description>
+            <ip>
+              <address>
+                <primary>
+                  <address>10.10.10.101</address>
+                  <mask>255.255.255.0</mask>
+                </primary>
+              </address>
+            </ip>
+          </Loopback>
+        </interface>
+      </native>
+    </config>
+  </edit-config>
