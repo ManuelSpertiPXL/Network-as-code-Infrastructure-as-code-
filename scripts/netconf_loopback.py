@@ -1,5 +1,6 @@
 from ncclient import manager
 import os
+import re
 
 """ router_ip = os.getenv("ROUTER_IP")
 username = os.getenv("ROUTER_USER")
@@ -36,8 +37,8 @@ with manager.connect(
     print("\nVerificatie (running-config):")
     config_state = m.get_config(source="running")
     
-    if "Loopback\d{1,3}" in config_state.data_xml:
-        print("Loopback10 succesvol aanwezig!")
+    if re.search(r"Loopback\d{1,3}", config_state.data_xml):
+        print("Loopback succesvol aanwezig!")
     else:
         print("Loopback NIET gevonden!")
 
