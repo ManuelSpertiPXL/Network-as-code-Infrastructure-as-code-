@@ -1,13 +1,13 @@
 from ncclient import manager
 import os
 
-""" router_ip = "40.113.133.31"
+router_ip = "40.113.133.31"
 username = "cisco"
-password = "cisco123!" """
+password = "cisco123!"
 
-router_ip = os.getenv("AZ_ROUTER_IP")
+""" router_ip = os.getenv("AZ_ROUTER_IP")
 username = os.getenv("AZ_ROUTER_USER")
-password = os.getenv("AZ_ROUTER_PASS")
+password = os.getenv("AZ_ROUTER_PASS") """
 
 print(f"🔌 Verbinden met {router_ip}")
 
