@@ -1,0 +1,5 @@
+    <config>
+      <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
+        <hostname>vRouter</hostname>
+      </native>
+    </config>
