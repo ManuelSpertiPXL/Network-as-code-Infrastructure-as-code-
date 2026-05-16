@@ -58,7 +58,7 @@ def select_task(task_name):
 # -----------------------------
 def main():
 
-    task = sys.argv[1] if len(sys.argv) > 1 else "get_hostname"
+    task = sys.argv[1] if len(sys.argv) > 1 else "task7"
     mode, data = select_task(task)
 
     if mode is None:
