@@ -7,6 +7,7 @@
 import sys
 from ncclient import manager
 import xml.dom.minidom
+import os
 
 # Importeer taken en filters vanuit aparte modules. 
 # Deze modules bevatten de XML-payloads en filters die worden gebruikt voor de verschillende taken die het script kan uitvoeren.
@@ -19,10 +20,10 @@ from filters import *
 PORT = 830
 USER = "cisco"
 PASS = "cisco123!" """
-HOST = ROUTER_IP
+HOST = os.getenv("ROUTER_IP")
 PORT = 830 # Standaard NETCONF-poort
-USER = ROUTER_USER
-PASS = ROUTER_PASS
+USER = os.getenv("ROUTER_USER")
+PASS = os.getenv("ROUTER_PASS")
 
 # -----------------------------
 # PRETTY PRINT
