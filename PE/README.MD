@@ -4,19 +4,19 @@ Het script is modulair opgebouwd en gebruikt externe modules (tasks en filters) 
 
 ### 📌 Features
 
-✅ Verbinding maken met NETCONF-capable devices (bv. Cisco IOS-XE)
-✅ Ondersteuning voor meerdere apparaten (vrouter, labrouter, labswitch)
-✅ Ondersteunt:
+✅ Verbinding maken met NETCONF-capable devices (bv. Cisco IOS-XE) <br />
+✅ Ondersteuning voor meerdere apparaten (vrouter, labrouter, labswitch) <br />
+✅ Ondersteunt: <br />
 
-GET (operationele data)
-GET_CONFIG (configuratie ophalen)
-CONFIG (configuraties aanpassen)
+GET (operationele data) <br />
+GET_CONFIG (configuratie ophalen) <br />
+CONFIG (configuraties aanpassen) <br />
 
 
-✅ Automatische detectie van candidate datastore
-✅ Veilige configuratie (lock / commit / rollback)
-✅ XML pretty-print voor leesbare output
-✅ Modulair uitbreidbaar via tasks.py en filters.py
+✅ Automatische detectie van candidate datastore <br />
+✅ Veilige configuratie (lock / commit / rollback) <br />
+✅ XML pretty-print voor leesbare output <br />
+✅ Modulair uitbreidbaar via tasks.py en filters.py <br />
 
 
 ## 📂 Projectstructuur
@@ -29,16 +29,20 @@ CONFIG (configuraties aanpassen)
 
 ### ⚙️ Vereisten
 Installeer de benodigde Python library:
-Shell pip install ncclientShow more lines
+
+```shell
+pip install ncclientShow more lines
+``
 
 ### 🔐 Environment Variables
 De verbindingsgegevens worden niet hardcoded, maar via environment variables ingesteld:
 Voorbeeld (Linux / macOS)
-Shell
+
+```shell
 export VROUTER_IP=192.168.1.1
 export VROUTER_USER=admin
 export VROUTER_PASS=password
-
+``
 ### Ondersteunde apparaten
 
 Device                          Environment Variables
