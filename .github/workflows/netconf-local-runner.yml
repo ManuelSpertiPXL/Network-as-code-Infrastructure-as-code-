@@ -18,8 +18,8 @@ jobs:
     - name: Install dependencies
       run: pip install -r netconf-hulk-requirements.txt
 
-    - name: Run NETCONF script (PE/hulk2.py)
-      run: python PE/hulk2.py
+    - name: Run NETCONF script (PE/hulk-v2.py)
+      run: python PE/hulk-v2.py
 env:
   VROUTER_IP: ${{ secrets.VROUTER_IP }}
   VROUTER_USER: ${{ secrets.VROUTER_USER }}
