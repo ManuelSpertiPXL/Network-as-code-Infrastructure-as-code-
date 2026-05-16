@@ -1,4 +1,4 @@
-def task1_interface_description()
+def task1_interface_description():
     return """
     <config>
       <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
@@ -11,7 +11,7 @@ def task1_interface_description()
       </native>
     </config>
     """
-def task2_interface_enable()
+def task2_interface_enable():
     return """
     <config>
       <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
