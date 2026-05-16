@@ -21,7 +21,7 @@ CONFIG (configuraties aanpassen) <br />
 
 ## 📂 Projectstructuur
 
-- main.py — Hoofdscript (NETCONF client)
+- hulk.py — Hoofdscript (NETCONF client)
 - tasks.py — XML-configuraties (write taken)
 - filters.py — XML-filters (read taken)
 - README.md — Documentatie
@@ -33,7 +33,6 @@ Installeer de benodigde Python library:
 ```shell
 pip install ncclient
 ```
-``
 
 ### 🔐 Environment Variables
 De verbindingsgegevens worden niet hardcoded, maar via environment variables ingesteld:
@@ -185,14 +184,16 @@ Datastore wordt altijd ontgrendeld (finally)
 #### tasks.py
 Bevat XML-configuraties:
 ```Shell
-def task7_hostname():    return "<config>...</config>"
+def task7_hostname():
+    return "<config>...</config>"
 ```
 
 ### filters.py
 Bevat XML filters:
 
 ```shell
-def get_hostname_filter():    return "<filter>...</filter>"
+def get_hostname_filter():
+    return "<filter>...</filter>"
 ```
 
 ➡️ Nieuwe taken toevoegen = eenvoudig uitbreiden
@@ -200,21 +201,21 @@ def get_hostname_filter():    return "<filter>...</filter>"
 ### 🧪 Voorbeelden
 ```shell
 # Hostname ophalen
-python main.py vrouter get_hostname
+python hulk.py vrouter get_hostname
 
 # Interface info bekijken
-python main.py labrouter get_interfaces
+python hulk.py labrouter get_interfaces
 
 # Config wijzigen
-python main.py labswitch set_hostname
-
+python hulk.py labswitch set_hostname
 ```
 
 ### ⚠️ Belangrijke opmerkingen
 
 Zorg dat NETCONF geactiveerd is op je device:
-
+```shell
 netconf-yang
+```
 
 Gebruik geen hardcoded credentials (veiligheid!)
 Test eerst in labomgeving
