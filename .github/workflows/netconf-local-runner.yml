@@ -16,7 +16,7 @@ jobs:
 
 
     - name: Install dependencies
-      run: pip install -r netconf-vbox-requirements.txt
+      run: pip install -r netconf-hulk-requirements.txt
 
     - name: Run NETCONF script (PE/hulk2.py)
       run: python PE/hulk2.py
