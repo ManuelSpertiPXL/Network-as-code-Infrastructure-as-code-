@@ -315,10 +315,10 @@ def select_task(task_name):
     elif task_name == "task19":
         return "GET", task19_running_config()
     elif task_name == "task20":
-        return "GET", task20_val_config()
+        return "CONFIG", task20_val_config()
     # geavanceerdere taken
 
-    elif task_name == "task21"
+    elif task_name == "task21":
         return "CONFIG", task21_ds_candidate_com_if()
     elif task_name == "task22":
         return "CONFIG", task22_ds_lock_ulock()
