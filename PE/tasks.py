@@ -1,4 +1,4 @@
-def task1_interface_description():
+def task1_interface_description()
     return """
     <config>
       <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
@@ -11,7 +11,7 @@ def task1_interface_description():
       </native>
     </config>
     """
-def task2_interface_enable():
+def task2_interface_enable()
     return """
     <config>
       <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
@@ -89,7 +89,7 @@ def task6_loopback_ip():
       </native>
     </config>
     """
-def task7_hostname():
+def task7_set_hostname():
     return """
     <config>
       <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
@@ -140,6 +140,145 @@ def task10_static_route():
     </config>
     """
 
+def task11_no_static_route():
+    return """
+    <config>"""
+
+def task12_motd():
+    return """
+    <config>
+      <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
+        <banner>
+          <motd>
+            <banner>Welcome to the NETCONF Router</banner>
+          </motd>
+        </banner>
+      </native>
+    </config>
+    """
+
+def task13_create_local_user():
+    return """
+    <config>
+      <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
+        <username>
+          <name>netconf-user</name>
+          <password>netconf-pass</password>
+        </username>
+      </native>
+    </config>
+    """
+def task14_mod_user_password():
+    return """
+    <config>
+      <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
+        <username>
+          <name>netconf-user</name>
+          <password>new-netconf-pass</password>
+        </username>
+      </native>
+    </config>
+    """
+
+def task15_create_vlan():
+    return """
+    <config>
+      <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
+        <vlan>
+          <vlan-list>
+            <id>10</id>
+            <name>NETCONF_VLAN</name>
+          </vlan-list>
+        </vlan>
+      </native>
+    </config>
+    """
+
+def task16_vlan_interface():
+    return """
+    <config>
+      <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
+        <interface>
+          <Vlan>
+            <name>10</name>
+            <ip>
+              <address>
+                <primary>
+                  <address>10.10.10.2</address>
+                  <mask>255.255.255.0</mask>
+                </primary>
+              </address>
+            </ip>
+          </Vlan>
+        </interface>
+      </native>
+    </config>
+    """
+def task17_snmp():
+    return """
+    <config>
+      <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
+        <snmp-server>
+          <community>
+            <name>public</name>
+            <authorization>ro</authorization>
+          </community>
+        </snmp-server>
+      </native>
+    </config>
+    """
+def task18_if_stats():
+    return """
+    <filter>
+      <interfaces-state xmlns="urn:ietf:params:xml:ns:yang:ietf-interfaces">
+        <interface>
+          <name/>
+          <statistics/>
+        </interface>
+      </interfaces-state>
+    </filter>
+    """
+def task19_running_config():
+    return None  # geen filter nodig, we willen alles zien
+
+def task20_val_config():
+    return """
+    <config>
+      <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
+        ...
+      </native>
+    </config>
+    """
+def task21_ds_candidate_com_if():
+
+def task22_ds_lock_unlock():
+
+def task23_multi_if():
+
+def task24_rollback():
+
+def task25_diff_run_cand():
+
+def tak26_ipv6():
+
+def task27_ospf():
+
+def task28_routing():
+
+def task29_MTU():
+
+def task30_acl():
+
+def task31_speed_duplex():
+
+def task32_yang_actions():
+
+def task34_openCONFIG():
+
+def task35_full_deploy():
+
+
+
 def get_interfaces_and_hostname():
     return """
     <filter>
@@ -152,17 +291,5 @@ def get_interfaces_and_hostname():
           <enabled/>
         </interface>
       </interfaces>
-    </filter>
-    """
-
-def task18_get_interface_stats():
-    return """
-    <filter>
-      <interfaces-state xmlns="urn:ietf:params:xml:ns:yang:ietf-interfaces">
-        <interface>
-          <name/>
-          <statistics/>
-        </interface>
-      </interfaces-state>
     </filter>
     """

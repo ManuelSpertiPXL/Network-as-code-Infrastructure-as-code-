@@ -275,6 +275,7 @@ def interpret_netconf_response(response, task_name):
 
 # TAKEN die deel uitmaken van de 39 taken uit LAB 8.2
 def select_task(task_name):
+    # Basis taken
     if task_name == "task1":
         return "CONFIG", task1_interface_description()
     elif task_name == "task2":
@@ -286,31 +287,67 @@ def select_task(task_name):
     elif task_name == "task5":
         return "CONFIG", task5_create_loopback()
     elif task_name == "task6":
-        return "CONFIG", task6_set_lo()
+        return "CONFIG", task6_loopback_ip()
     elif task_name == "task7":
-        return "CONFIG", task7_hostname()
+        return "CONFIG", task7_set_hostname()
     elif task_name == "task8":
-        return "GET", get_interfaces_filter()
+        return "GET", task8_dns()
     elif task_name == "task9":
-        return "GET_CONFIG", get_running_filter()
+        return "GET_CONFIG", task9_ntp()
     elif task_name == "task10":
         return "CONFIG", task10_static_route()
-    elif task_name == "get_hostname":
-        return "GET", get_hostname_filter()
-    elif task_name == "get_motd":
-        return "GET", get_motd_filter()
-    elif task_name == "set_hostname":
-        return "CONFIG", set_hostname()
-    elif task_name == "get_hostname_and_interfaces":
-        return "GET", get_hostname_and_interfaces()
-    elif task_name == "get_routing":
-        return "GET", get_routing_filter()
-    elif task_name == "get_interfaces":
-        return "GET", get_interfaces_filter()
-    elif task_name == "get_capabilities":
-        return "CAPABILITIES", None
-    
+    elif task_name == "task11":
+        return "CONFIG", task11_no_static_route()
+    elif task_name == "task12":
+        return "CONFIG", task12_motd()
+    elif task_name == "task13":
+        return "CONFIG", task13_create_local_user()
+    elif task_name == "task14":
+        return "CONFIG", task14_mod_user_password()
+    elif task_name == "task15":
+        return "CONFIG", task15_create_vlan()
+    elif task_name == "task16":
+        return "CONFIG", task16_vlan_interface()
+    elif task_name == "task17":
+        return "CONFIG", task17_snmp()
+    elif task_name == "task18":
+        return "GET", task18_if_stats()
+    elif task_name == "task19":
+        return "GET", task19_running_config()
+    elif task_name == "task20":
+        return "GET", task20_val_config()
+    # geavanceerdere taken
 
+    elif task_name == "task21"
+        return "CONFIG", task21_ds_candidate_com_if()
+    elif task_name == "task22":
+        return "CONFIG", task22_ds_lock_ulock()
+    elif task_name == "task23":
+        return "CONFIG", task23_multi_if()
+    elif task_name == "task24":
+        return "CONFIG", task24_rollback()
+    elif task_name == "task25":
+        return "CONFIG", task25_diff_run_cand()
+    elif task_name == "task26":
+        return "CONFIG", task26_ipv6()
+    elif task_name == "task27":
+        return "CONFIG", task27_ospf()
+    elif task_name == "task28":
+        return "CONFIG", task28_routing()
+    elif task_name == "task29":
+        return "CONFIG", task29_MTU()
+    elif task_name == "task30":
+        return "CONFIG", task30_ACL()
+    elif task_name == "task31":
+        return "CONFIG", task31_speed_duplex()
+    elif task_name == "task32":
+        return "CONFIG", task32_yang_action()
+    elif task_name == "task33":
+        return "CAPABILITIES", None
+    elif task_name == "task34":
+        return "config", task34_openCONFIG()
+    elif task_name == "task35":
+        return "config", task35_full_deploy()
     else:
         print("ERROR: Unknown task")
         return None, None
@@ -333,6 +370,20 @@ def select_task(task_name):
         return "CONFIG", set_hostname()
     elif task_name == "get_hostname_and_interfaces":
         return "GET", get_hostname_and_interfaces() """
+"""     elif task_name == "get_hostname":
+        return "GET", get_hostname_filter()
+    elif task_name == "get_motd":
+        return "GET", get_motd_filter()
+    elif task_name == "set_hostname":
+        return "CONFIG", set_hostname()
+    elif task_name == "get_hostname_and_interfaces":
+        return "GET", get_hostname_and_interfaces()
+    elif task_name == "get_routing":
+        return "GET", get_routing_filter()
+    elif task_name == "get_interfaces":
+        return "GET", get_interfaces_filter()
+    elif task_name == "get_capabilities":
+        return "CAPABILITIES", None """
 
 
 # -----------------------------
