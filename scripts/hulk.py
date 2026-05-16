@@ -35,7 +35,7 @@ def parse_reply(xml):
             msgs.append(e.findtext(".//{*}error-message"))
         return f" ERROR: {msgs}"
 
-    return "⚠️ Unknown response"
+    return " Unknown response"
 
 
 # -----------------------------

@@ -1,4 +1,4 @@
-name: NETCONF Deploy local runner
+name: NETCONF Deploy met local runner
 
 on:
   push:
@@ -19,8 +19,14 @@ jobs:
       run: pip install -r netconf-vbox-requirements.txt
 
     - name: Run NETCONF script (new-hulk.py)
-      run: python scripts/new-hulk.py
-      env:
-        ROUTER_IP: ${{ secrets.VROUTER_IP }}
-        ROUTER_USER: ${{ secrets.VROUTER_USER }}
-        ROUTER_PASS: ${{ secrets.VROUTER_PASS }}
+      run: python PE/hulk.py
+env:
+  VROUTER_IP: ${{ secrets.VROUTER_IP }}
+  VROUTER_USER: ${{ secrets.VROUTER_USER }}
+  VROUTER_PASS: ${{ secrets.VROUTER_PASS }}
+  LAB_ROUTER_IP: ${{ secrets.LAB_ROUTER_IP }}
+  LAB_ROUTER_USER: ${{ secrets.LAB_ROUTER_USER }}
+  LAB_ROUTER_PASS: ${{ secrets.LAB_ROUTER_PASS }}
+  LAB_SWITCH_IP: ${{ secrets.LAB_SWITCH_IP }}
+  LAB_SWITCH_USER: ${{ secrets.LAB_SWITCH_USER }}
+  LAB_SWITCH_PASS: ${{ secrets.LAB_SWITCH_PASS }}
