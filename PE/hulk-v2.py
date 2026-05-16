@@ -317,7 +317,6 @@ def select_task(task_name):
     elif task_name == "task20":
         return "CONFIG", task20_val_config()
     # geavanceerdere taken
-
     elif task_name == "task21":
         return "CONFIG", task21_ds_candidate_com_if()
     elif task_name == "task22":
@@ -348,6 +347,9 @@ def select_task(task_name):
         return "config", task34_openCONFIG()
     elif task_name == "task35":
         return "config", task35_full_deploy()
+    # Extra taken die niet in de 39 taken van LAB 8.2 zitten, maar die je zelf kunt toevoegen als extra oefeningen
+    elif task_name == "get_hostname":
+        return "GET", get_hostname()
     else:
         print("ERROR: Unknown task")
         return None, None

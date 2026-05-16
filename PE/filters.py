@@ -17,7 +17,7 @@ def get_routing_filter():
       <routing-state xmlns="urn:ietf:params:xml:ns:yang:ietf-routing"/>
     </filter>
     """
-def get_hostname_filter():
+def get_hostname():
     return """
     <filter>
       <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
