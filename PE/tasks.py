@@ -250,34 +250,130 @@ def task20_val_config():
     </config>
     """
 def task21_ds_candidate_com_if():
+    return """
+    <config>
+      <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
+      ...
+      </native>
+    </config>
+    """
 
 def task22_ds_lock_unlock():
+        return """
+    <config>
+      <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
+      ...
+      </native>
+    </config>
+    """
 
 def task23_multi_if():
+        return """
+    <config>
+      <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
+      ...
+      </native>
+    </config>
+    """
 
 def task24_rollback():
+        return """
+    <config>
+      <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
+      ...
+      </native>
+    </config>
+    """
 
 def task25_diff_run_cand():
+        return """
+    <config>
+      <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
+      ...
+      </native>
+    </config>
+    """
 
 def tak26_ipv6():
+         return """
+    <config>
+      <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
+      ...
+      </native>
+    </config>
+    """
 
 def task27_ospf():
+         return """
+    <config>
+      <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
+      ...
+      </native>
+    </config>
+    """
 
 def task28_routing():
+         return """
+    <config>
+      <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
+      ...
+      </native>
+    </config>
+    """
 
 def task29_MTU():
+         return """
+    <config>
+      <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
+      ...
+      </native>
+    </config>
+    """
 
 def task30_acl():
+         return """
+    <config>
+      <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
+      ...
+      </native>
+    </config>
+    """
 
 def task31_speed_duplex():
+         return """
+    <config>
+      <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
+      ...
+      </native>
+    </config>
+    """
 
 def task32_yang_actions():
+         return """
+    <config>
+      <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
+      ...
+      </native>
+    </config>
+    """
 
 def task34_openCONFIG():
+          return """
+    <config>
+      <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
+      ...
+      </native>
+    </config>
+    """
 
 def task35_full_deploy():
-
-
+          return """
+    <config>
+      <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
+      ...
+      </native>
+    </config>
+    """
 
 def get_interfaces_and_hostname():
     return """
