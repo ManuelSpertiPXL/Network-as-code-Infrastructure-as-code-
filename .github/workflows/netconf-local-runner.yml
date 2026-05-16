@@ -18,7 +18,7 @@ jobs:
     - name: Install dependencies
       run: pip install -r netconf-vbox-requirements.txt
 
-    - name: Run NETCONF script (new-hulk.py)
+    - name: Run NETCONF script (PE/hulk.py)
       run: python PE/hulk.py
 env:
   VROUTER_IP: ${{ secrets.VROUTER_IP }}

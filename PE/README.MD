@@ -19,12 +19,12 @@ CONFIG (configuraties aanpassen)
 ✅ Modulair uitbreidbaar via tasks.py en filters.py
 
 
-### 📂 Projectstructuur
-.
-├── main.py          # Dit script
-├── tasks.py         # Bevat XML-configuraties (write taken)
-├── filters.py       # Bevat XML-filters (read taken)
-└── README.md
+## 📂 Projectstructuur
+
+- main.py — Hoofdscript (NETCONF client)
+- tasks.py — XML-configuraties (write taken)
+- filters.py — XML-filters (read taken)
+- README.md — Documentatie
 
 
 ### ⚙️ Vereisten
