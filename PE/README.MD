@@ -31,7 +31,7 @@ CONFIG (configuraties aanpassen) <br />
 Installeer de benodigde Python library:
 
 ```shell
-pip install ncclientShow more lines
+pip install ncclient
 ```
 ``
 
@@ -55,12 +55,22 @@ labswitch                       LAB_SWITCH_IP, LAB_SWITCH_USER, LAB_SWITCH_PASS
 
 ### 🚀 Gebruik
 #### Basisgebruik
-Shellpython main.pyShow more lines
+```Shell 
+python main.py
+```
+``
 ##### Voorbeeld
-Shell python main.py vrouter get_hostname get_motd
+```Shell
+python main.py vrouter get_hostname get_motd
+```
+``
 
 ##### Zonder arguments
-Shell python main.pyShow
+
+```Shell
+python main.py
+```
+``
 
 #### ➡️ Standaard worden uitgevoerd:
 
@@ -124,15 +134,29 @@ Data: XML payload of filter
 #### 5. Read operaties
 
 ##### GET (operationele data)
+```Shell
 Python m.get(filter=data)
+```
+``
 
 ##### GET_CONFIG
+```Shell
 Python m.get_config(source="running")
+```
+``
+
 ➡️ Output wordt geformatteerd via:
+```Shell
 Python pretty_xml()
+```
+``
 
 #### 6. Write operaties
+```Shell
 Python m.edit_config(target=target_ds, config=data)
+```
+``
+
 ##### Workflow:
 ###### Als candidate:
 
@@ -142,7 +166,10 @@ Commit
 Unlock
 
 Bij fout:
+```shell
 Python m.discard_changes()
+```
+``
 
 ### 🔄 Error Handling
 Bij fouten tijdens CONFIG:
@@ -157,11 +184,18 @@ Datastore wordt altijd ontgrendeld (finally)
 ### 🧩 Modulariteit
 #### tasks.py
 Bevat XML-configuraties:
+```Shell
 Python def task7_hostname():    return "<config>...</config>"
+```
+``
 
 ### filters.py
 Bevat XML filters:
-Pythondef get_hostname_filter():    return "<filter>...</filter>"
+```
+Python
+def get_hostname_filter():    return "<filter>...</filter>"
+```
+``
 
 ➡️ Nieuwe taken toevoegen = eenvoudig uitbreiden
 
