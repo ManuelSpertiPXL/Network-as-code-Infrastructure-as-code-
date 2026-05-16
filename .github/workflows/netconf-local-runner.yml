@@ -21,6 +21,6 @@ jobs:
     - name: Run NETCONF script (new-hulk.py)
       run: python scripts/new-hulk.py
       env:
-        ROUTER_IP: ${{ LAB_ROUTER_IP }}
-        ROUTER_USER: ${{ LAB_ROUTER_USER }}
-        ROUTER_PASS: ${{ LAB.AZ_ROUTER_PASS }}
+        ROUTER_IP: ${{ secrets.LAB_ROUTER_IP }}
+        ROUTER_USER: ${{ secrets.LAB_ROUTER_USER }}
+        ROUTER_PASS: ${{ secrets.LAB_ROUTER_PASS }}
