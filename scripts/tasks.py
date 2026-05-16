@@ -45,7 +45,7 @@ def set_hostname():
     return """
     <config>
       <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
-        <hostname>HULK</hostname>
+        <hostname>MILKYWAY</hostname>
       </native>
     </config>
     """
