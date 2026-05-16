@@ -38,3 +38,17 @@ def get_motd_filter():
       </native>
     </filter>
     """
+def get_hostname_and_interfaces():
+    return """
+    <filter>
+      <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
+        <hostname/>
+      </native>
+      <interfaces xmlns="urn:ietf:params:xml:ns:yang:ietf-interfaces">
+        <interface>
+          <name/>
+          <enabled/>
+        </interface>
+      </interfaces>
+    </filter>
+    """
