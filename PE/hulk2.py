@@ -1,10 +1,13 @@
 import sys
+import io
 import os
 from ncclient import manager
 import xml.dom.minidom
 
 from tasks import *
 from filters import *
+
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
 # -----------------------------
 # DEVICE SELECTIE
