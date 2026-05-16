@@ -32,6 +32,7 @@ Installeer de benodigde Python library:
 
 ```shell
 pip install ncclientShow more lines
+```
 ``
 
 ### 🔐 Environment Variables
@@ -42,6 +43,7 @@ Voorbeeld (Linux / macOS)
 export VROUTER_IP=192.168.1.1
 export VROUTER_USER=admin
 export VROUTER_PASS=password
+```
 ``
 ### Ondersteunde apparaten
 
