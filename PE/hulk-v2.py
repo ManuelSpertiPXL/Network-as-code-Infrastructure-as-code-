@@ -31,11 +31,13 @@ from datetime import datetime
 from ncclient import manager
 import xml.dom.minidom
 import xml.etree.ElementTree as ET
+from tabulate import tabulate
+from urllib.parse import parse_qs
 
 # Importeer taken en filters uit aparte modules
 # Zorg dat je deze modules zelf aanmaakt en de functies invult op basis van de voorbeelden die ik eerder gaf
 # (deze code zal niet werken zonder deze modules, dus zorg dat je ze aanmaakt en de functies invult voordat je deze code runt)
-from scripts.tasks import set_hostname
+# from scripts.tasks import set_hostname
 from tasks import *
 from filters import *
 
@@ -80,6 +82,63 @@ def save_json():
 # Deze functie neemt een XML string en maakt er een mooi geformatteerde versie van, met inspringing en nieuwe regels, zodat het makkelijker te lezen is wanneer het geprint wordt.
 def pretty_xml(xml_string):
     return xml.dom.minidom.parseString(xml_string).toprettyxml(indent="  ")
+
+
+def parse_capability(cap):
+    result = {
+        "type": "",
+        "module": "",
+        "revision": ""
+    }
+
+    # 🔹 NETCONF base capabilities
+    if cap.startswith("urn:ietf:params:netconf"):
+        parts = cap.split(":")
+        result["type"] = "netconf"
+        result["module"] = parts[-2]
+        result["revision"] = parts[-1]
+
+    # 🔹 YANG modules met query (?module=...)
+    elif "?module=" in cap:
+        try:
+            base, query = cap.split("?", 1)
+            params = parse_qs(query)
+
+            result["type"] = base.split("/")[2] if "://" in base else "yang"
+            result["module"] = params.get("module", ["-"])[0]
+            result["revision"] = params.get("revision", ["-"])[0]
+        except:
+            result["module"] = cap
+
+    # 🔹 fallback
+    else:
+        result["module"] = cap
+
+    return result
+
+
+# Get capabilities in a nice table format (optioneel, kan gebruikt worden om de capabilities van het apparaat te tonen in een overzichtelijke tabel
+
+
+def get_capabilities_table(m):
+    table = []
+
+    for cap in m.server_capabilities:
+        parsed = parse_capability(cap)
+
+        table.append([
+            parsed["type"],
+            parsed["module"],
+            parsed["revision"]
+        ])
+
+    return tabulate(
+        table,
+        headers=["Type", "Module", "Revision"],
+        tablefmt="simple"
+    )
+
+
 
 # -----------------------------
 # PAYLOAD VIEW
@@ -227,7 +286,7 @@ def select_task(task_name):
     elif task_name == "task5":
         return "CONFIG", task5_create_loopback()
     elif task_name == "task6":
-        return "CONFIG", task6_remove_loopback()
+        return "CONFIG", task6_set_lo()
     elif task_name == "task7":
         return "CONFIG", task7_hostname()
     elif task_name == "task8":
@@ -248,6 +307,8 @@ def select_task(task_name):
         return "GET", get_routing_filter()
     elif task_name == "get_interfaces":
         return "GET", get_interfaces_filter()
+    elif task_name == "get_capabilities":
+        return "CAPABILITIES", None
     
 
     else:
@@ -311,6 +372,10 @@ def main():
     # Je kunt meerdere taken tegelijk uitvoeren door meerdere taaknamen als command line argumenten mee te geven, bijvoorbeeld: python hulk.py task7 get_interfaces get_hostname
     # Als er geen taken zijn opgegeven, gebruiken we een standaard taak (in dit geval "get_hostname") zodat het script niet zonder actie eindigt.
     # Je kunt dit aanpassen naar een andere standaard taak, of het leeg laten als je wilt dat er geen actie wordt uitgevoerd zonder expliciete taakselectie.
+    
+# 🔥 CLI parsing (device + store_mode + tasks)
+    store_mode = sys.argv[2] if len(sys.argv) > 2 else "auto"
+
     tasks = sys.argv[2:] if len(sys.argv) > 2 else ["get_hostname"]
     # Verbinden met het apparaat via NETCONF en uitvoeren van de geselecteerde taken
     with manager.connect(
@@ -327,21 +392,47 @@ def main():
         # CAPABILITY CHECK & CANDIDATE CHECK
         # -----------------------------
         # Hier controleren we de capabilities van het apparaat om te zien of het de "candidate" datastore ondersteunt, wat belangrijk is voor write operaties.
-       
+        # 🔥 detect candidate support
         use_candidate = any(":candidate" in cap for cap in m.server_capabilities)
 
-        target_ds = "candidate" if use_candidate else "running"
+        
 
+        # 🔥 store selection
+        if store_mode == "candidate":
+            if not use_candidate:
+                print("❌ Candidate niet supported")
+                exit(1)
+            target_ds = "candidate"
+
+        elif store_mode == "running":
+            target_ds = "running"
+
+        else:
+            target_ds = "candidate" if use_candidate else "running"
+
+        print(f"📌 Store mode: {store_mode}")
+        print(f"📌 Target datastore: {target_ds}")
+
+        
         for task in tasks:
-
+            # Hier selecteren we de mode (GET, GET_CONFIG, CONFIG) en de data (XML payload of filter) voor de huidige taak, door de select_task functie aan te roepen.
             mode, data = select_task(task)
-
+            # Als de taak onbekend is (mode is None), slaan we deze taak over en gaan we door naar de volgende taak in de lijst.
             if mode is None:
                 continue
-
+            # Hier tonen we de payload die we gaan gebruiken voor deze taak, zodat we kunnen zien wat er precies naar het apparaat gestuurd gaat worden.
             print(f"\n🚀 Running task: {task}")
 
+            
+            # ✅ capabilities speciale case
+            if mode == "CAPABILITIES":
+                print("\n📡 DEVICE CAPABILITIES:\n")
+                print(get_capabilities_table(m))
+                continue
+
+
             # ✅ payload + YANG
+            # We tonen de payload die we gaan gebruiken voor deze taak, en ook welke YANG modules er in de payload gebruikt worden, zodat we een beter inzicht hebben in wat er precies gebeurt bij deze taak.
             if data:
                 show_payload(task, data)
                 show_yang_modules(task, data)
@@ -369,6 +460,7 @@ def main():
 
             print("\n📥 RESPONSE:")
             print(pretty_xml(str(response)))
+            # Hier proberen we de response te interpreteren, om te zien of de operatie succesvol was, of dat er een fout is opgetreden, en wat de details van die fout zijn als dat het geval is.
 
             interpret_netconf_response(response, task)
 
@@ -379,5 +471,6 @@ def main():
 # -----------------------------
 # START
 # -----------------------------
+# Hier starten we het script door de main functie aan te roepen.
 if __name__ == "__main__":
     main()
