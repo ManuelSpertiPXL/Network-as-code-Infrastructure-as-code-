@@ -1,0 +1,10 @@
+    <config>
+      <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native" xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0">
+        <ip>
+        <name-server nc:operation="merge">
+          <no-vrf>1.1.1.1</no-vrf>
+          <no-vrf nc:operation="delete">8.8.8.8</no-vrf>
+        </name-server>
+        </ip>
+      </native>
+    </config>

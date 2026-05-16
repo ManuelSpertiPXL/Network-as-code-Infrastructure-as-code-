@@ -4,7 +4,7 @@ import pprint
 # Deze code is gebaseerd op de code in config/router/set/hostname.py, maar in plaats van een edit-config operatie uit te voeren, wordt er een get-config operatie uitgevoerd. De payload is aangepast om een filter te bevatten dat alleen de hostname opvraagt. De response wordt vervolgens geprint, waarbij verschillende manieren worden getoond om de response te bekijken. De laatste print geeft een samenvatting van de response weer, inclusief eventuele foutmeldingen.
 def load_xml():
     base = os.path.dirname(__file__)
-    path = os.path.join(base, "hostname.xml")
+    path = os.path.join(base, "motd.xml")
 
     with open(path, "r") as f:
         return f.read()

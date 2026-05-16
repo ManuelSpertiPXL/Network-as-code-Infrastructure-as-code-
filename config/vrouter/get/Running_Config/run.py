@@ -4,7 +4,7 @@ import pprint
 # Deze code is gebaseerd op de code in config/router/set/hostname.py, maar in plaats van een edit-config operatie uit te voeren, wordt er een get-config operatie uitgevoerd. De payload is aangepast om een filter te bevatten dat alleen de hostname opvraagt. De response wordt vervolgens geprint, waarbij verschillende manieren worden getoond om de response te bekijken. De laatste print geeft een samenvatting van de response weer, inclusief eventuele foutmeldingen.
 def load_xml():
     base = os.path.dirname(__file__)
-    path = os.path.join(base, "hostname.xml")
+    path = os.path.join(base, "run.xml")
 
     with open(path, "r") as f:
         return f.read()
@@ -28,8 +28,7 @@ def push_config():
         print("Connected")
 
         response = m.get_config(
-            source="running",
-            filter=payload
+            source="running"
         )
         # Geeft aan dat de configuratie is opgehaald, maar geeft niet de configuratie zelf weer
         print("DONE")
@@ -38,11 +37,10 @@ def push_config():
         """ print(response.data_xml)
         print(response.xml) """
         # print(response) geeft een samenvatting van de response weer, inclusief eventuele foutmeldingen. Het is een handige manier om snel te zien of de configuratie succesvol is opgehaald, zonder dat je door een grote hoeveelheid XML hoeft te scrollen.
-        print(response)
-        print("==================")
+        """ print(response) """
         pprint.pprint(response)
         print("==================")
-        print(response.data_xml)
+       
 
 if __name__ == "__main__":
     push_config()

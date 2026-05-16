@@ -1,0 +1,18 @@
+    <config>
+      <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native" xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0">
+        <ip>
+          <route>
+            <ip-route-interface-forwarding-list nc:operation="delete">
+              <prefix>0.0.0.0</prefix>
+              <mask>0.0.0.0</mask>
+              <fwd-list>
+                  <fwd>gigabitEthernet1</fwd>
+                  <interface-next-hop>
+                    <ip-address>10.24.49.156</ip-address>
+                  </interface-next-hop>
+                </fwd-list>
+            </ip-route-interface-forwarding-list>
+          </route>
+        </ip>
+      </native>
+    </config>
