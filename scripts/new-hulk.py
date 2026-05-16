@@ -1,20 +1,34 @@
+# Deze code is een uitgebreid script dat verbinding maakt met een netwerkapparaat via NETCONF en verschillende taken kan uitvoeren op basis van de opgegeven argumenten. 
+# Het script ondersteunt zowel lees- als schrijfoperaties, afhankelijk van de geselecteerde taak. 
+# De code maakt gebruik van de ncclient-bibliotheek om de NETCONF-verbinding te beheren en XML-payloads te verzenden. 
+# Er is ook een functie voor het mooi afdrukken van XML-responses. 
+# De taken en filters worden geïmporteerd vanuit aparte modules, waardoor het script modulair en uitbreidbaar is.
+
 import sys
 from ncclient import manager
 import xml.dom.minidom
 
+# Importeer taken en filters vanuit aparte modules. 
+# Deze modules bevatten de XML-payloads en filters die worden gebruikt voor de verschillende taken die het script kan uitvoeren.
 from tasks import *
 from filters import *
 
-
-HOST = "192.168.56.105"
+# Gegevens voor verbinding met het netwerkapparaat. 
+# In een echte omgeving zouden deze waarschijnlijk uit een configuratiebestand of omgevingsvariabelen komen.
+""" HOST = "192.168.56.105"
 PORT = 830
 USER = "cisco"
-PASS = "cisco123!"
-
+PASS = "cisco123!" """
+HOST = ROUTER_IP
+PORT = 830 # Standaard NETCONF-poort
+USER = ROUTER_USER
+PASS = ROUTER_PASS
 
 # -----------------------------
 # PRETTY PRINT
 # -----------------------------
+# pretty_xml functie neemt een XML-string en retourneert een mooi geformatteerde versie van die string. 
+# Dit maakt het gemakkelijker om de XML-responses van het netwerkapparaat te lezen en te begrijpen.
 def pretty_xml(xml_string):
     return xml.dom.minidom.parseString(xml_string).toprettyxml(indent="  ")
 
@@ -22,6 +36,8 @@ def pretty_xml(xml_string):
 # -----------------------------
 # TASK SELECTOR
 # -----------------------------
+# De select_task functie neemt een taaknaam als argument en retourneert het type operatie (GET, GET_CONFIG, CONFIG) en de bijbehorende XML-payload of filter. 
+# Op basis van de taaknaam wordt de juiste functie aangeroepen die de XML-payload of filter retourneert.
 def select_task(task_name):
 
     if task_name == "task7":
@@ -56,14 +72,16 @@ def select_task(task_name):
 # -----------------------------
 # MAIN
 # -----------------------------
+# De main functie is het startpunt van het script. 
+# Het accepteert optioneel een lijst van taken als argumenten.
+# Als er geen taken worden opgegeven, worden standaard de "get_hostname" en "get_motd" taken uitgevoerd.
+# De functie maakt verbinding met het netwerkapparaat en voert de geselecteerde taken uit, waarbij de resultaten worden geprint in een mooi geformatteerde XML-indeling.
+# Voor schrijfoperaties wordt ook gecontroleerd of de "candidate" datastore wordt ondersteund, en worden de wijzigingen correct beheerd met lock, commit en discard indien nodig.
+# Na het uitvoeren van de taken wordt de verbinding met het netwerkapparaat gesloten.
 def main():
-
-    task = sys.argv[1] if len(sys.argv) > 1 else "task7"
-    mode, data = select_task(task)
-
-    if mode is None:
-        return
-
+    # Haal de lijst van taken op uit de commandoregelargumenten, of gebruik standaardtaken als er geen argumenten zijn opgegeven.
+    tasks = sys.argv[1:] if len(sys.argv) > 1 else ["get_hostname", "get_motd"]
+    # Maak verbinding met het netwerkapparaat met behulp van de ncclient manager.
     with manager.connect(
         host=HOST,
         port=PORT,
@@ -73,11 +91,14 @@ def main():
         device_params={"name": "iosxe"}
     ) as m:
 
-        print("Connected")
+        print("Verbonden met toestel:", HOST)
 
         # -----------------------------
-        # CAPABILITY CHECK
+        # CAPABILITY CHECK (voor WRITE)
         # -----------------------------
+        # Controleer of de "candidate" datastore wordt ondersteund door het netwerkapparaat. 
+        # Als dit het geval is, worden configuratiewijzigingen eerst naar de "candidate" datastore gestuurd en vervolgens gecommit. 
+        # Als de "candidate" datastore niet wordt ondersteund, worden wijzigingen direct naar de "running" datastore gestuurd.
         use_candidate = any(":candidate" in cap for cap in m.server_capabilities)
 
         if use_candidate:
@@ -88,62 +109,79 @@ def main():
             target_ds = "running"
 
         # -----------------------------
-        # READ OPERATIONS
+        # TASK LOOP
         # -----------------------------
-        if mode == "GET":
-            print("Retrieving data...")
-            response = m.get(filter=data)
-            print(pretty_xml(str(response)))
-            return
+        # Loop door de geselecteerde taken en voer de bijbehorende operaties uit.
+        # Voor elke taak wordt het type operatie en de bijbehorende XML-payload of filter opgehaald met de select_task functie.
+        for task in tasks:
 
-        elif mode == "GET_CONFIG":
-            print("Retrieving running configuration...")
-            response = m.get_config(source="running")
-            print(pretty_xml(str(response)))
-            return
+            mode, data = select_task(task)
 
-        # -----------------------------
-        # WRITE OPERATIONS
-        # -----------------------------
-        elif mode == "CONFIG":
+            if mode is None:
+                continue
 
-            payload = data
-
-            if use_candidate:
-                print("Locking candidate datastore")
-                m.lock(target="candidate")
-
-            try:
-                print("Sending configuration")
-
-                response = m.edit_config(
-                    target=target_ds,
-                    config=payload
-                )
-
+            # -----------------------------
+            # READ
+            # -----------------------------
+            # Voor leesoperaties (GET en GET_CONFIG) wordt de juiste NETCONF-operatie uitgevoerd met de opgegeven filter of payload, en wordt de response geprint in een mooi geformatteerde XML-indeling.
+            # Voor GET_CONFIG wordt de configuratie opgehaald van de "running" datastore, terwijl voor GET een specifieke filter wordt gebruikt om alleen relevante informatie op te vragen.
+            if mode == "GET":
+                print(f"\nRunning task: {task}")
+                response = m.get(filter=data)
                 print(pretty_xml(str(response)))
 
-                if use_candidate:
-                    print("Committing configuration")
-                    m.commit()
-                else:
-                    print("Configuration applied directly to running")
+            elif mode == "GET_CONFIG":
+                print(f"\nRunning task: {task}")
+                response = m.get_config(source="running")
+                print(pretty_xml(str(response)))
 
-            except Exception as e:
-                print("Error:", e)
-
+            # -----------------------------
+            # WRITE
+            # ------------------------------
+            # Voor schrijfoperaties (CONFIG) wordt de edit-config operatie gebruikt om de opgegeven XML-payload naar het netwerkapparaat te sturen.
+            # Als de "candidate" datastore wordt gebruikt, worden de wijzigingen eerst naar de "candidate" datastore gestuurd en vervolgens gecommit.
+            # Er is ook foutafhandeling aanwezig, waarbij eventuele fouten worden opgevangen en de wijzigingen worden teruggedraaid als er een fout optreedt tijdens het configureren.
+            elif mode == "CONFIG":
+                # Voor schrijfoperaties wordt eerst gecontroleerd of de "candidate" datastore wordt gebruikt. Als dit het geval is, wordt de datastore vergrendeld voordat de configuratie wordt verzonden.
                 if use_candidate:
-                    print("Discarding changes")
-                    m.discard_changes()
+                    print("Locking candidate datastore")
+                    m.lock(target="candidate")
+                # Daarna wordt de configuratie verzonden met de edit-config operatie. Als er een fout optreedt tijdens het configureren, wordt deze opgevangen en worden eventuele wijzigingen teruggedraaid als de "candidate" datastore wordt gebruikt. Na het configureren wordt de datastore ontgrendeld als deze was vergrendeld.
+                try:
+                    print("Sending configuration")
 
-            finally:
-                if use_candidate:
-                    print("Unlocking datastore")
-                    m.unlock(target="candidate")
+                    response = m.edit_config(
+                        target=target_ds,
+                        config=data
+                    )
+
+                    print(pretty_xml(str(response)))
+                    # Na het succesvol toepassen van de configuratie wordt er een commit uitgevoerd als de "candidate" datastore wordt gebruikt. Als de "candidate" datastore niet wordt gebruikt, is de configuratie al toegepast op de "running" datastore.
+                    # Het committen van de configuratie zorgt ervoor dat de wijzigingen permanent worden gemaakt in de "running" datastore. Als er geen commit wordt uitgevoerd, blijven de wijzigingen in de "candidate" datastore en worden ze niet toegepast op de "running" datastore.
+                    if use_candidate:
+                        print("Committing configuration")
+                        m.commit()
+                    else:
+                        print("Configuration applied to running")
+
+                except Exception as e:
+                    print("Error:", e)
+                    # Als er een fout optreedt tijdens het configureren, worden eventuele wijzigingen teruggedraaid als de "candidate" datastore wordt gebruikt. Dit zorgt ervoor dat de configuratie in een consistente staat blijft, zelfs als er fouten optreden.
+                    # Het terugdraaien van wijzigingen is alleen van toepassing als de "candidate" datastore wordt gebruikt, omdat in dat geval de wijzigingen nog niet zijn gecommit naar de "running" datastore. 
+                    # Als er geen "candidate" datastore wordt gebruikt, worden wijzigingen direct toegepast op de "running" datastore en kunnen ze niet worden teruggedraaid.
+                    if use_candidate:
+                        m.discard_changes()
+                # Na het configureren van de wijzigingen wordt de datastore ontgrendeld als deze was vergrendeld. Dit zorgt ervoor dat andere processen of gebruikers weer toegang hebben tot de datastore.
+                # Het ontgrendelen van de datastore is belangrijk om te voorkomen dat deze per ongeluk vergrendeld blijft, wat problemen kan veroorzaken voor andere gebruikers of processen die toegang nodig hebben tot de datastore.
+                finally:
+                    if use_candidate:
+                        print("Unlocking datastore")
+                        m.unlock(target="candidate")
 
 
 # -----------------------------
 # START
 # -----------------------------
+# Het script wordt gestart door de main functie aan te roepen wanneer het script direct wordt uitgevoerd.
 if __name__ == "__main__":
     main()

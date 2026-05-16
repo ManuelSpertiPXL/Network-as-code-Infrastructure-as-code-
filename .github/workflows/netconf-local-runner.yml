@@ -1,4 +1,4 @@
-name: NETCONF Loopback Deploy
+name: NETCONF Deploy local runner
 
 on:
   push:
@@ -18,9 +18,9 @@ jobs:
     - name: Install dependencies
       run: pip install -r netconf-vbox-requirements.txt
 
-    - name: Run NETCONF script
+    - name: Run NETCONF script (new-hulk.py)
       run: python scripts/new-hulk.py
       env:
-        ROUTER_IP: ${{ secrets.AZ_ROUTER_IP }}
-        ROUTER_USER: ${{ secrets.AZ_ROUTER_USER }}
-        ROUTER_PASS: ${{ secrets.AZ_ROUTER_PASS }}
+        ROUTER_IP: ${{ LAB_ROUTER_IP }}
+        ROUTER_USER: ${{ LAB_ROUTER_USER }}
+        ROUTER_PASS: ${{ LAB.AZ_ROUTER_PASS }}
