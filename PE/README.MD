@@ -68,6 +68,35 @@ Onderstaande screenshot toont een succesvolle uitvoering van een NETCONF get-ope
 
 ![NETCONF output](screenshots/get_hostname.png)
 
+De RPC-reply toont dat de hostname correct werd opgehaald via het Cisco-IOS-XE-native YANG model. De status is succesvol (data ontvangen).
+
+## CI/CD Deployment (GitHub Actions)
+
+Onderstaande screenshots tonen een automatische NETCONF deployment via GitHub Actions.
+
+Bij elke push naar de repository wordt een pipeline gestart die het Python-script uitvoert en configuraties toepast op het netwerktoestel.
+
+### Pipeline overzicht
+![Pipeline](screenshots/github_pipeline.png)
+
+### Pipeline uitvoering (logs)
+![Logs](screenshots/github_logs.png)
+``
+De pipeline voert volgende stappen uit:
+- Repository ophalen (checkout)
+- Dependencies installeren
+- NETCONF script uitvoeren (Python)
+- Payload versturen naar toestel
+- Response verwerken en loggen
+
+De logs tonen:
+- gebruikte payload (XML via YANG model)
+- RPC-reply van het toestel
+- succesvolle interpretatie van de response
+
+Dit demonstreert een volledige "Network as Code" workflow met CI/CD integratie.
+``
+
 ### 🌐 GitHub Integratie
 
 Haalt XML configuratie rechtstreeks op vanuit GitHub:
