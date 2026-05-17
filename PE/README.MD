@@ -46,6 +46,20 @@ Extractie van gebruikte YANG modules uit XML
 Overzicht van gebruikte namespaces
 Debugging van payloads
 
+### Voorbeeld payload
+
+```xml
+    <config>
+      <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
+        <interface>
+          <GigabitEthernet>
+            <name>0/0/0</name>
+            <description xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" nc:operation="merge">Geconfigureerd via netconf en python</description>
+          </GigabitEthernet>
+        </interface>
+      </native>
+    </config>
+```
 
 ### 🌐 GitHub Integratie
 
@@ -57,9 +71,11 @@ fetch_from_github()
 
 📁 Projectstructuur
 
-- hulk.py               # hoofdscript (jouw code)
-- tasks.py              # task definities (XML payloads)
-- filters.py            # NETCONF filters
+- hulk.py                       # hoofdscript (jouw code)
+- tasks.py                      # task definities (XML payloads)
+- filters.py                    # NETCONF filters
+- netconf-hulk-requirements.txt # python requirements
+- 36_end_to_end_config.xml      # toestel payload
 - logs/
     - netconf_<date>.log
     - netconf_output.json
@@ -231,10 +247,10 @@ validate_change(m)
 ⚠️ Foutafhandeling
 Het script detecteert automatisch:
 
-❌ RPC errors
-❌ parsing errors
-❌ unsupported datastore
-❌ ontbrekende tasks
+❌ RPC errors <br >
+❌ parsing errors <br >
+❌ unsupported datastore <br >
+❌ ontbrekende tasks <br >
 
 ✅ Best Practices
 
@@ -245,11 +261,11 @@ Log altijd output voor troubleshooting
 
 🚀 Toekomstige uitbreidingen
 
-✅ Parallel execution van tasks
-✅ GUI frontend
-✅ REST API wrapper
-✅ Multi-device orchestration
-✅ Ansible integratie
+✅ Parallel execution van tasks <br >
+✅ GUI frontend <br >
+✅ REST API wrapper<br >
+✅ Multi-device orchestration<br >
+✅ Ansible integratie<br >
 
 
 👨‍💻 Auteur
@@ -257,7 +273,6 @@ Manuel Sperti
 Network Automation / Infrastructure as Code
 
 
-```markdown
 🔄 Flow Diagram (Mermaid)
 
 ```Mermaid
@@ -304,3 +319,4 @@ V -->|Yes| F
 V -->|No| W[Save JSON logs]
 
 W --> X[End]
+```
