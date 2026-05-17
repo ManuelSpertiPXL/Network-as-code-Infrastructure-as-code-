@@ -1,234 +1,303 @@
-# NETCONF Automation Script
-Dit Python-script maakt verbinding met netwerkapparaten via NETCONF en laat toe om zowel lees- (GET) als schrijfoperaties (CONFIG) uit te voeren.
-Het script is modulair opgebouwd en gebruikt externe modules (tasks en filters) om configuraties en data-opvragingen flexibel te beheren.
+🟢 HULK v2.4 – NETCONF Task Executor
+Een krachtige NETCONF automation tool geschreven in Python voor het uitvoeren van netwerkconfiguraties, validaties en monitoring via YANG-modellen.
+Dit script automatiseert configuraties op netwerkapparaten (zoals Cisco IOS-XE) en biedt ondersteuning voor:
 
-### 📌 Features
-
-✅ Verbinding maken met NETCONF-capable devices (bv. Cisco IOS-XE) <br />
-✅ Ondersteuning voor meerdere apparaten (vrouter, labrouter, labswitch) <br />
-✅ Ondersteunt: <br />
-
-GET (operationele data) <br />
-GET_CONFIG (configuratie ophalen) <br />
-CONFIG (configuraties aanpassen) <br />
+✅ Config push (edit-config)
+✅ Data retrieval (get / get-config)
+✅ Candidate / running datastore handling
+✅ Rollback & diff vergelijking
+✅ YANG-aware parsing
+✅ Logging (tekst + JSON)
+✅ Remote config ophalen via GitHub
 
 
-✅ Automatische detectie van candidate datastore <br />
-✅ Veilige configuratie (lock / commit / rollback) <br />
-✅ XML pretty-print voor leesbare output <br />
-✅ Modulair uitbreidbaar via tasks.py en filters.py <br />
+📦 Features
+🔧 NETCONF Operaties
+
+GET → informatie ophalen van het toestel
+CONFIG → configuraties uitvoeren
+ROLLBACK → terug naar vorige config
+COMPARE → running vs candidate vergelijken
+CAPABILITIES → device capabilities tonen
+ACTION → RPC acties uitvoeren
 
 
-## 📂 Projectstructuur
+📊 Logging & Monitoring
 
-- hulk.py — Hoofdscript (NETCONF client)
-- tasks.py — XML-configuraties (write taken)
-- filters.py — XML-filters (read taken)
-- README.md — Documentatie
+Logs worden opgeslagen in:
+
+logs/netconf_<datum>.log
+logs/netconf_output.json
 
 
-### ⚙️ Vereisten
-Installeer de benodigde Python library:
+JSON logging bevat:
+
+timestamp
+task naam
+status (SUCCESS / ERROR / UNKNOWN)
+details
+
+
+
+📡 YANG ondersteuning
+
+Extractie van gebruikte YANG modules uit XML
+Overzicht van gebruikte namespaces
+Debugging van payloads
+
+
+🌐 GitHub Integratie
+
+Haalt XML configuratie rechtstreeks op vanuit GitHub:
 
 ```shell
-pip install ncclient
+fetch_from_github()
 ```
 
-### 🔐 Environment Variables
-De verbindingsgegevens worden niet hardcoded, maar via environment variables ingesteld:
-Voorbeeld (Linux / macOS)
+📁 Projectstructuur
+
+- main.py               # hoofdscript (jouw code)
+- tasks.py              # task definities (XML payloads)
+- filters.py            # NETCONF filters
+- logs/
+    - netconf_<date>.log
+    - netconf_output.json
+
+⚙️ Vereisten
+Python packages
+Installeer dependencies:
+
 
 ```shell
-export VROUTER_IP=192.168.1.1
-export VROUTER_USER=admin
+pip install ncclient tabulate requests 
+```
+
+🔐 Environment Variables
+Voor veiligheid worden credentials via environment variables geladen:
+VRouter
+
+
+```shell
+
+export VROUTER_IP=192.168.x.x
+export VROUTER_USER=username
 export VROUTER_PASS=password
+
 ```
 
-### Ondersteunde apparaten
+Lab Router
+```shell
+export LAB_ROUTER_IP=172.x.x.x
+export LAB_ROUTER_USER=username
+export LAB_ROUTER_PASS=password
+```
+Lab Switch
+```shell
 
-Device                          Environment Variables
-vrouter                         VROUTER_IP, VROUTER_USER, VROUTER_PASS
-labrouter                       LAB_ROUTER_IP, LAB_ROUTER_USER, LAB_ROUTER_PASS
-labswitch                       LAB_SWITCH_IP, LAB_SWITCH_USER, LAB_SWITCH_PASS
+export LAB_SWITCH_IP=172.x.x.x
+export LAB_SWITCH_USER=username
+export LAB_SWITCH_PASS=password
 
+```
+▶️ Gebruik
+Basis syntax
 
-### 🚀 Gebruik
-#### Basisgebruik
-```Shell 
-python3 hulk.py
+```shell
+python main.py <device> <store_mode> <task1> <task2> ...
+```
+Voorbeelden
+🔹 Hostname ophalen
+
+```shell
+python main.py vrouter auto get_hostname
+```
+🔹 Interface configureren
+
+```shell
+python main.py labrouter candidate task1 task2
+```
+🔹 Full deployment
+
+```shell
+python main.py vrouter candidate task36
+```
+🔹 Config ophalen van GitHub
+
+```shell
+python main.py vrouter running fetch_github
 ```
 
-##### Voorbeeld
-```Shell
-python3 hulk.py vrouter get_hostname get_motd
-```
+🧠 Store Modes
+
+Mode                Beschrijving
+auto                kiest automatisch (candidate indien beschikbaar)
+candidate           gebruikt candidate datastore
+running             schrijft direct naar running config
 
 
-##### Zonder arguments
-
-```Shell
-python hulk.py
-```
-
-#### ➡️ Standaard worden uitgevoerd:
-
-get_hostname
-get_motd
-
-
-## 📋 Beschikbare Taken
-### 🔍 Read Tasks
-
+📋 Beschikbare Tasks
+Tasks worden gedefinieerd in tasks.py.
+Enkele voorbeelden:
 
 Task                Beschrijving
-get_interfaces      Haalt interface-informatie op
-get_running         Volledige running-config
-get_hostname        Hostname ophalen
-get_motd            Message of the Day ophalen
 
-### ✏️ Write Tasks (CONFIG)
+task1               Interface description
+task3               IPv4 configuratie
+task5               Loopback interface
+task7               Hostname instellen
+task9               NTP configuratie
+task15              VLAN aanmaken
+task18              Interface stats ophalen
+task19              Running config
+task26              IPv6 configuratie
+task27              OSPF
+task30              ACL
+task32              Clear counters
+task33              Capabilities
+task36              End-to-end deployment
 
-Task                Beschrijving
-task1               Interface beschrijving aanpassen
-task7               Hostname configureren
-task10              Static route toevoegen
-set_hostname        Nieuwe hostname instellen
 
-### ⚙️ Hoe het script werkt
+🔍 Extra Functionaliteiten
+📦 Payload visualisatie
+Toont XML payload netjes geformatteerd:
 
-#### 1. Device selectie
-Het script kiest het apparaat op basis van het eerste argument:
 
 ```shell
-device = sys.argv[1]
+📦 PAYLOAD for task: task1
 ```
-
-Afhankelijk daarvan worden de juiste credentials geladen uit environment variables.
-
-#### 2. NETCONF verbinding
-```shell
-with manager.connect(...)
-```
-
-Verbindt via poort 830
-Gebruikt ncclient
-Device type: iosxe
-
-
-#### 3. Capability detectie
-Python use_candidate = any(":candidate" in cap for cap in m.server_capabilities)
-
-➡️ Bepaalt of het device een candidate datastore ondersteunt.
-
-Scenario            Gedrag
-✅ Candidate        lock → edit → commit
-❌ Geen             direct naar running config
-
-#### 4. Task selectie
-```shell
-mode, data = select_task(task)
-```
-
-Elke taak wordt vertaald naar:
-```shell
-Mode: GET, GET_CONFIG, CONFIG
-Data: XML payload of filter
-```
-
-#### 5. Read operaties
-
-##### GET (operationele data)
-```Shell
-m.get(filter=data)
-```
-
-##### GET_CONFIG
-```Shell
-m.get_config(source="running")
-```
-
-➡️ Output wordt geformatteerd via:
-```Shell
-pretty_xml()
-```
-
-#### 6. Write operaties
-```Shell
-m.edit_config(target=target_ds, config=data)
-```
-
-##### Workflow:
-###### Als candidate:
-
-Lock datastore
-Config sturen
-Commit
-Unlock
-
-Bij fout:
-```shell
-m.discard_changes()
-```
-
-### 🔄 Error Handling
-Bij fouten tijdens CONFIG:
-
-Exception wordt opgevangen
-Bij candidate:
-
-❌ changes worden teruggedraaid (discard_changes)
-
-Datastore wordt altijd ontgrendeld (finally)
-
-### 🧩 Modulariteit
-#### tasks.py
-Bevat XML-configuraties:
-```Shell
-def task7_hostname():
-    return "<config>...</config>"
-```
-
-### filters.py
-Bevat XML filters:
+🧬 YANG Module Detectie
+Automatisch detectie van gebruikte YANG modules:
 
 ```shell
-def get_hostname_filter():
-    return "<filter>...</filter>"
+
+📦 YANG modules:
+ - ietf-interfaces
+ - cisco-ios-xe-native
+
 ```
 
-➡️ Nieuwe taken toevoegen = eenvoudig uitbreiden
+🔎 Response Interpretatie
+Automatische parsing van NETCONF responses:
 
-### 🧪 Voorbeelden
+✅ success (ok)
+✅ data ontvangen
+❌ RPC errors
+⚠️ unknown responses
+
+🔁 Rollback
+Bij fouten kun je terug naar vorige config:
+
 ```shell
-# Hostname ophalen
-python hulk.py vrouter get_hostname
-
-# Interface info bekijken
-python hulk.py labrouter get_interfaces
-
-# Config wijzigen
-python hulk.py labswitch set_hostname
+python main.py vrouter candidate task24
 ```
+🔍 Config Compare
+Vergelijkt running vs candidate:
 
-### ⚠️ Belangrijke opmerkingen
-
-Zorg dat NETCONF geactiveerd is op je device:
 ```shell
-netconf-yang
+python main.py vrouter candidate task2
+```
+Output:
+```shell
+
+- old config
++ new config
+
 ```
 
-Gebruik geen hardcoded credentials (veiligheid!)
-Test eerst in labomgeving
+🛠️ Belangrijke Functies
+Logging
+
+```shell
+
+log_to_file(message)
+add_json_log(task, status, details)
+
+```
+NETCONF Response Parsing
+```shell
+interpret_netconf_response(response, task_name)
+```
+YANG Extractie
+
+```shell
+extract_yang_modules(xml_payload
+```
+Config Validatie
+```shell
+validate_change(m)
+```
+⚠️ Foutafhandeling
+Het script detecteert automatisch:
+
+❌ RPC errors
+❌ parsing errors
+❌ unsupported datastore
+❌ ontbrekende tasks
+
+✅ Best Practices
+
+Gebruik environment variables (nooit hardcoded credentials)
+Werk bij voorkeur met candidate datastore
+Gebruik COMPARE voor veilige changes
+Log altijd output voor troubleshooting
+
+🚀 Toekomstige uitbreidingen
+
+✅ Parallel execution van tasks
+✅ GUI frontend
+✅ REST API wrapper
+✅ Multi-device orchestration
+✅ Ansible integratie
 
 
-### ✅ Toekomstige uitbreidingen
-
-CLI argument parsing (argparse)
-Logging toevoegen
-YAML config file
-Multi-device automation
-Parallel execution
-RESTCONF
-
-### 👨‍💻 Auteur
+👨‍💻 Auteur
 Manuel Sperti
+Network Automation / Infrastructure as Code
+
+🔄 Flow Diagram (Mermaid)
+
+```Mermaid
+
+flowchart TD
+
+A[Start script] --> B[Lees CLI args]
+B --> C[Select device + env vars]
+C --> D[Maak NETCONF connectie]
+
+D --> E[Bepaal datastore mode]
+E --> F[Loop door tasks]
+
+F --> G{Task type?}
+
+G -->|GET| H["Run m.get()"]
+G -->|CONFIG| I[Backup running config]
+I --> J{Candidate supported?}
+
+J -->|Yes| K[Lock candidate]
+K --> L[edit-config]
+L --> M[validate + commit]
+M --> N[unlock]
+
+J -->|No| O[edit-config -> running]
+
+G -->|CAPABILITIES| P[Print capabilities]
+G -->|ROLLBACK| Q[Restore backup]
+G -->|COMPARE| R[Diff running vs candidate]
+G -->|ACTION| S[Execute RPC dispatch]
+
+H --> T[Print response]
+N --> T
+O --> T
+P --> F
+Q --> F
+R --> F
+S --> T
+
+T --> U[Interpret response]
+U --> F
+
+F --> V{Meer tasks?}
+V -->|Yes| F
+V -->|No| W[Save JSON logs]
+
+W --> X[End]
