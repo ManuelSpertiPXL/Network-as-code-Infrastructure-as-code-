@@ -16,7 +16,7 @@ jobs:
 
 
     - name: Install dependencies
-      run: pip install -r netconf-hulk-requirements.txt
+      run: pip install -r PE/netconf-hulk-requirements.txt
 
     - name: Run NETCONF script (PE/hulk.py)
       run: python PE/hulk.py
