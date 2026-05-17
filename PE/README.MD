@@ -72,17 +72,17 @@ JSON logging bevat:
 
 ## ✅ Voorbeeld uitvoering (NETCONF)
 
-screenshots/get_hostname.png
+![NETCONF output](screenshots/get_hostname.png)
 
 ---
 
 ## 🚀 CI/CD Deployment (GitHub Actions)
 
 ### Pipeline overzicht
-screenshots/github_pipeline.png
+![GitHub pipeline](screenshots/github_pipeline.png)
 
 ### Pipeline logs
-screenshots/github_logs.png
+![Pipeline logs](screenshots/github_logs.png)
 
 ---
 
