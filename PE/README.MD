@@ -46,7 +46,7 @@ Extractie van gebruikte YANG modules uit XML
 Overzicht van gebruikte namespaces
 Debugging van payloads
 
-### Voorbeeld payload
+## Voorbeeld payload
 
 ```xml
     <config>
@@ -60,6 +60,13 @@ Debugging van payloads
       </native>
     </config>
 ```
+
+
+## Voorbeeld uitvoering (NETCONF)
+
+Onderstaande screenshot toont een succesvolle uitvoering van een NETCONF get-operatie (hostname ophalen):
+
+![NETCONF output](screenshots/get_hostname.png)
 
 ### 🌐 GitHub Integratie
 
@@ -158,20 +165,49 @@ Enkele voorbeelden:
 
 Task                Beschrijving
 
-task1               Interface description
+
+task1               Interface description instellen
+task2               Interface inschakelen (no shutdown)
 task3               IPv4 configuratie
-task5               Loopback interface
+task4               IPv4 verwijderen
+task5               Loopback interface aanmaken
+task6               Loopback IPv4 configuratie
 task7               Hostname instellen
+task8               DNS configuratie
 task9               NTP configuratie
+task10              Static route configureren
+task11              Static route verwijderen
+task12              MOTD banner instellen
+task13              Lokale gebruiker aanmaken
+task14              User password aanpassen
 task15              VLAN aanmaken
-task18              Interface stats ophalen
-task19              Running config
+task16              VLAN interface configureren (SVI)
+task17              SNMP configuratie
+task18              Interface statistics ophalen (filter)
+task19              Running config ophalen
+task20              Configuratie valideren / aanpassen
+task21              Candidate datastore + commit
+task22              Datastore lock / unlock
+task23              Meerdere interfaces configureren (multi-RPC)
+task24              Specifieke actie op payload (script/logica)
+task25              Specifieke actie op payload (script/logica)
 task26              IPv6 configuratie
-task27              OSPF
-task30              ACL
-task32              Clear counters
-task33              Capabilities
+task27              OSPF configuratie
+task28              Routing informatie ophalen (filter)
+task29              MTU configuratie
+task30              ACL configuratie + toepassen op interface
+task31              Speed / duplex instellen (niet werkend)
+task32              Clear counters (YANG action / RPC)
+task33              Capabilities ophalen / tonen (via script)
+task34              OpenConfig configuratie
+task35              Full deployment (gecombineerde configuratie)
 task36              End-to-end deployment
+
+Opmerking:
+- Tasks 24 en 25 bevatten geen aparte payloads, maar voeren specifieke scriptlogica uit op bestaande configuraties of requests
+- Filters voor operational data (tasks 18 en 28) zijn gedefinieerd in filters.py
+- Payloads zijn geïntegreerd in Python functies i.p.v. aparte XML-bestanden
+- Sommige configuraties zijn niet volledig werkend (task31)
 
 
 🔍 Extra Functionaliteiten
