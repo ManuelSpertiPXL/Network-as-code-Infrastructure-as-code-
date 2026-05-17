@@ -340,9 +340,9 @@ Manuel Sperti
 Network Automation / Infrastructure as Code
 
 
-🔄 Flow Diagram (Mermaid)
+## 🔄 Flow Diagram (Mermaid)
 
-```Mermaid
+```mermaid
 flowchart TD
 
 A[Start script] --> B[Lees CLI args]
@@ -386,4 +386,3 @@ V -->|Yes| F
 V -->|No| W[Save JSON logs]
 
 W --> X[End]
-```
