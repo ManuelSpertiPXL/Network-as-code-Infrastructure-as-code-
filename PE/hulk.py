@@ -159,6 +159,11 @@ def interpret_netconf_response(response, task_name):
 def fetch_from_github():
     url = "https://raw.githubusercontent.com/ManuelSpertiPXL/Network-as-code-Infrastructure-as-code-/refs/heads/main/PE/36_end_to_end_config.xml"
     r = requests.get(url)
+    
+    if r.status_code != 200:
+            print(f"❌ GitHub error: {r.status_code}")
+            return None
+
     return r.text
 
 # -----------------------------
@@ -186,18 +191,18 @@ def select_task(task_name):
     elif task_name == "task19": return "GET", task19_running_config()
     elif task_name == "task20": return "CONFIG", task20_val_config()
     elif task_name == "task21": return "CONFIG", task21_ds_candidate_com_if(),True # True = candidate supported, dus lock/unlock gebruiken
-    elif task_name == "task22": return "CONFIG", task22_ds_lock_ulock(), True # True = candidate supported, dus lock/unlock gebruiken
+    elif task_name == "task22": return "CONFIG", task22_ds_lock_unlock(), True  # True = candidate supported, dus lock/unlock gebruiken
     elif task_name == "task23": return "CONFIG", task23_multi_if()
-    elif task_name == "task24": return "ROLLBACK", None
-    elif task_name == "task25": return "COMPARE", None
-    elif task_name == "task26": return "CONFIG", task_ipv6()
+    elif task_name == "task24": return "ROLLBACK", None # gebeurt automatisch bij error. 
+    elif task_name == "task25": return "COMPARE", None # gebeurt automatisch bij candidate store.
+    elif task_name == "task26": return "CONFIG", task26_ipv6() 
     elif task_name == "task27": return "CONFIG", task27_ospf()
-    elif task_name == "task28": return "CONFIG", task28_routing()
+    elif task_name == "task28": return "GET", task28_routing()
     elif task_name == "task29": return "CONFIG", task29_MTU()
     elif task_name == "task30": return "CONFIG", task30_acl()
     elif task_name == "task31": return "CONFIG", task31_speed_duplex()
     elif task_name == "task32": return "ACTION", None
-    elif task_name == "task33": return "CAPABILITIES", None
+    elif task_name == "task33": return "CAPABILITIES", None 
     elif task_name == "task34": return "CONFIG", task34_openCONFIG()
     elif task_name == "task35": return "CONFIG", task35_full_deploy()
     elif task_name == "task36": return "CONFIG", task36_end_to_end()
@@ -326,7 +331,10 @@ def main():
                 show_yang_modules(task, data)
             else:
                 print("⚠️ GitHub gaf geen geldige XML terug")
-                print(data[:200])
+                
+                if data:
+                    print(data[:200])
+
 
             if mode == "GET":
                 response = m.get(filter=data)

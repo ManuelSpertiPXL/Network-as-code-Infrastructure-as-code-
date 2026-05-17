@@ -126,16 +126,22 @@ def task8_dns():
       </native>
     </config>
     """
+# Geverifieerd te werken op vrouter, if aangepast voor lab
 def task9_ntp():
     return """
-<config>
-  <ntp xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-ntp">
-    <server-list>
-      <ip-address>10.199.64.66</ip-address>
-    </server-list>
-  </ntp>
-</config>
+    <config>
+      <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
+        <ntp>
+          <server xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-ntp">
+            <server-list>
+              <ip-address>10.199.64.66</ip-address>
+            </server-list>
+          </server>
+        </ntp>
+      </native>
+    </config>
     """
+# Geverifieerd te werken op vrouter, if aangepast voor lab
 def task10_static_route():
     return """
   <config>
@@ -154,7 +160,7 @@ def task10_static_route():
     </native>
   </config>
     """
-
+# Geverifieerd te werken op vrouter, if aangepast voor lab
 def task11_no_static_route():
     return """
   <config>
@@ -173,20 +179,20 @@ def task11_no_static_route():
     </native>
   </config>
     """
-
+# Geverifieerd te werken op vrouter, if aangepast voor lab
 def task12_motd():
     return """
     <config>
       <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
         <banner>
           <motd>
-            <banner xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" nc:operation="merge">Welkom, via netconf</banner>
+            <banner xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" nc:operation="merge">#Welkom, via netconf#</banner>
           </motd>
         </banner>
       </native>
     </config>
     """
-
+# Geverifieerd te werken op vrouter, if aangepast voor lab
 def task13_create_local_user():
     return """
     <config>
@@ -198,6 +204,7 @@ def task13_create_local_user():
       </native>
     </config>
     """
+# Geverifieerd te werken op vrouter, if aangepast voor lab
 def task14_mod_user_password():
     return """
     <config>
@@ -212,7 +219,7 @@ def task14_mod_user_password():
       </native>
     </config>
     """
-
+# niet geverifierd 
 def task15_create_vlan():
     return """
     <config>
@@ -226,7 +233,7 @@ def task15_create_vlan():
       </native>
     </config>
     """
-
+# niet geverifierd 
 def task16_vlan_interface():
     return """
     <config>
@@ -247,25 +254,25 @@ def task16_vlan_interface():
       </native>
     </config>
     """
+# ok
 def task17_snmp():
     return """
     <config>
       <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
         <snmp-server>
-          <community>
-            <COMMUNITY>
-              <name>public</name>
-              <ro/>
-            </COMMUNITY>
-            <COMMUNITY>
-              <name>private</name>
-              <rw/>
-            </COMMUNITY>
+          <community xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-snmp">
+            <name>public</name>
+            <RO/>
+          </community>
+          <community xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-snmp">
+            <name>private</name>
+            <RW/>
           </community>
         </snmp-server>
       </native>
     </config>
     """
+# Geverifieerd te werken op vrouter, if aangepast voor lab
 def task19_running_config():
     return """
     <nc:filter type="subtree" xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0">
@@ -273,7 +280,7 @@ def task19_running_config():
       </native>
     </nc:filter>
     """
-
+# ok, standaard zo alle taken
 def task20_val_config():
     return """
     <config>
@@ -294,6 +301,7 @@ def task20_val_config():
       </native>
     </config>
     """
+# ok standaard ingesteld om ds candidate te gebruiken zie optie true in functie
 def task21_ds_candidate_com_if():
     return """
     <config>
@@ -314,7 +322,7 @@ def task21_ds_candidate_com_if():
       </native>
     </config>
     """
-
+# ok standaard ingesteld om ds candidate te gebruiken zie optie true in functie
 def task22_ds_lock_unlock():
         return """
     <config>
@@ -335,7 +343,7 @@ def task22_ds_lock_unlock():
       </native>
     </config>
     """
-
+# geverifieerd
 def task23_multi_if():
         return """
     <config>
@@ -369,19 +377,9 @@ def task23_multi_if():
       </native>
     </config>
     """
-
-def task24_rollback():
-        return """
-    <config>
-      <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
-      ...
-      </native>
-    </config>
-    """
-
-
-def tak26_ipv6():
-         return """
+# verified
+def task26_ipv6():
+    return """
     <config>
       <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
         <interface>
@@ -401,59 +399,10 @@ def tak26_ipv6():
       </native>
     </config>
     """
-
+# verified en aangepast voor lab (interface)
 def task27_ospf():
-         return """
-<config>
-  <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
-    <interface>
-      <Loopback>
-        <name>66</name>
-        <description>Loopback OSPF 1</description>
-        <ip>
-          <address>
-            <primary>
-              <address>17.17.17.17</address>
-              <mask>255.255.255.0</mask>
-            </primary>
-          </address>
-        </ip>
-      </Loopback>
-      <Loopback>
-        <name>99</name>
-        <description>Loopback OSPF 2</description>
-        <ip>
-          <address>
-            <primary>
-              <address>19.19.19.19</address>
-              <mask>255.255.255.0</mask>
-            </primary>
-          </address>
-        </ip>
-      </Loopback>
-    </interface>
-    <router>
-      <ospf xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-ospf">
-        <id>1</id>
-        <network>
-          <ip>17.17.17.0</ip>
-          <mask>0.0.0.255</mask>
-          <area>0</area>
-        </network>
-        <network>
-          <ip>19.19.19.0</ip>
-          <mask>0.0.0.255</mask>
-          <area>0</area>
-        </network>
-        <passive-interface>
-          <interface>default</interface>
-        </passive-interface>
-      </ospf>
-    </router>
-  </native>
-</config>
-    """
-""" <config>
+    return """ 
+  <config>
   <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
     <interface>
       <Loopback>
@@ -507,29 +456,80 @@ def task27_ospf():
 </config> """
 
 
+"""
+<config>
+  <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
+    <interface>
+      <Loopback>
+        <name>66</name>
+        <description>Loopback OSPF 1</description>
+        <ip>
+          <address>
+            <primary>
+              <address>17.17.17.17</address>
+              <mask>255.255.255.0</mask>
+            </primary>
+          </address>
+        </ip>
+      </Loopback>
+      <Loopback>
+        <name>99</name>
+        <description>Loopback OSPF 2</description>
+        <ip>
+          <address>
+            <primary>
+              <address>19.19.19.19</address>
+              <mask>255.255.255.0</mask>
+            </primary>
+          </address>
+        </ip>
+      </Loopback>
+    </interface>
+    <router>
+      <ospf xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-ospf">
+        <id>1</id>
+        <network>
+          <ip>17.17.17.0</ip>
+          <mask>0.0.0.255</mask>
+          <area>0</area>
+        </network>
+        <network>
+          <ip>19.19.19.0</ip>
+          <mask>0.0.0.255</mask>
+          <area>0</area>
+        </network>
+        <passive-interface>
+          <interface>default</interface>
+        </passive-interface>
+      </ospf>
+    </router>
+  </native>
+</config>
+    """
+# ok verified
 def task28_routing():
-         return """
+      return """
     <filter>
       <routing-state xmlns="urn:ietf:params:xml:ns:yang:ietf-routing"/>
     </filter>
     """
-
+# ok verified en aangepas if voor lab
 def task29_MTU():
-         return """
+      return """
     <config>
       <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
         <interface>
           <GigabitEthernet>
             <name>0/0/0</name>
             <ip>
-              <mtu xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" nc:operation="merge">1800</mtu>
+              <mtu xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" nc:operation="merge">1500</mtu>
             </ip>
           </GigabitEthernet>
         </interface>
       </native>
     </config>
     """
-
+# ok verified en aangepastr voor lab
 def task30_acl():
          return """
     <config>
@@ -568,7 +568,7 @@ def task30_acl():
       </native>
     </config>
     """
-
+# werkt niet
 def task31_speed_duplex():
          return """
     <config>
@@ -586,14 +586,14 @@ def task31_speed_duplex():
       </native>
     </config>
     """
-
+# ok verified
 def task32_yang_actions():
-         return """
+    return """
   <clear xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-rpc" xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0">
     <interface>GigabitEthernet1</interface>
   </clear>
     """
-
+# ok verified
 def task34_openCONFIG():
           return """
 <config>
