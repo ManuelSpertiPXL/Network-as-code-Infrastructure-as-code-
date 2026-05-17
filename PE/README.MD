@@ -56,7 +56,7 @@ fetch_from_github()
 
 📁 Projectstructuur
 
-- main.py               # hoofdscript (jouw code)
+- hulk.py               # hoofdscript (jouw code)
 - tasks.py              # task definities (XML payloads)
 - filters.py            # NETCONF filters
 - logs/
