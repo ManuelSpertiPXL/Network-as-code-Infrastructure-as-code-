@@ -1,28 +1,29 @@
-🟢 HULK v2.4 – NETCONF Task Executor
+# 🟢 HULK v2.4 – NETCONF Task Executor
+
 Een krachtige NETCONF automation tool geschreven in Python voor het uitvoeren van netwerkconfiguraties, validaties en monitoring via YANG-modellen.
 Dit script automatiseert configuraties op netwerkapparaten (zoals Cisco IOS-XE) en biedt ondersteuning voor:
 
-✅ Config push (edit-config)
-✅ Data retrieval (get / get-config)
-✅ Candidate / running datastore handling
-✅ Rollback & diff vergelijking
-✅ YANG-aware parsing
-✅ Logging (tekst + JSON)
-✅ Remote config ophalen via GitHub
+✅ Config push (edit-config) <br /> 
+✅ Data retrieval (get / get-config)<br />
+✅ Candidate / running datastore handling<br />
+✅ Rollback & diff vergelijking<br />
+✅ YANG-aware parsing<br />
+✅ Logging (tekst + JSON)<br />
+✅ Remote config ophalen via GitHub<br />
 
 
-📦 Features
-🔧 NETCONF Operaties
+## 📦 Features
+### 🔧 NETCONF Operaties
 
-GET → informatie ophalen van het toestel
-CONFIG → configuraties uitvoeren
-ROLLBACK → terug naar vorige config
-COMPARE → running vs candidate vergelijken
-CAPABILITIES → device capabilities tonen
-ACTION → RPC acties uitvoeren
+- GET → informatie ophalen van het toestel
+- CONFIG → configuraties uitvoeren
+- ROLLBACK → terug naar vorige config
+- COMPARE → running vs candidate vergelijken
+- CAPABILITIES → device capabilities tonen
+- ACTION → RPC acties uitvoeren
 
 
-📊 Logging & Monitoring
+### 📊 Logging & Monitoring
 
 Logs worden opgeslagen in:
 
@@ -39,14 +40,14 @@ details
 
 
 
-📡 YANG ondersteuning
+### 📡 YANG ondersteuning
 
 Extractie van gebruikte YANG modules uit XML
 Overzicht van gebruikte namespaces
 Debugging van payloads
 
 
-🌐 GitHub Integratie
+### 🌐 GitHub Integratie
 
 Haalt XML configuratie rechtstreeks op vanuit GitHub:
 
@@ -63,7 +64,7 @@ fetch_from_github()
     - netconf_<date>.log
     - netconf_output.json
 
-⚙️ Vereisten
+### ⚙️ Vereisten
 Python packages
 Installeer dependencies:
 
@@ -205,6 +206,7 @@ Output:
 ```
 
 🛠️ Belangrijke Functies
+
 Logging
 
 ```shell
@@ -254,10 +256,11 @@ Log altijd output voor troubleshooting
 Manuel Sperti
 Network Automation / Infrastructure as Code
 
+
+```markdown
 🔄 Flow Diagram (Mermaid)
 
 ```Mermaid
-
 flowchart TD
 
 A[Start script] --> B[Lees CLI args]
