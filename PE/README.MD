@@ -196,42 +196,42 @@ Enkele voorbeelden:
 
 ## Task Beschrijving
 
-task1    Interface description instellen
-task2    Interface inschakelen (no shutdown)  
-task3    IPv4 configuratie  
-task4    IPv4 verwijderen  
-task5    Loopback interface aanmaken  
-task6    Loopback IPv4 configuratie  
-task7    Hostname instellen  
-task8    DNS configuratie  
-task9    NTP configuratie  
-task10   Static route configureren  
-task11   Static route verwijderen  
-task12   MOTD banner instellen  
-task13   Lokale gebruiker aanmaken  
-task14   User password aanpassen  
-task15   VLAN aanmaken  
-task16   VLAN interface configureren (SVI)  
-task17   SNMP configuratie  
-task18   Interface statistics ophalen (filter)  
-task19   Running config ophalen  
-task20   Configuratie valideren / aanpassen  
-task21   Candidate datastore + commit  
-task22   Datastore lock / unlock  
-task23   Meerdere interfaces configureren (multi-RPC)  
-task24   Specifieke actie op payload (script/logica)  
-task25   Specifieke actie op payload (script/logica)  
-task26   IPv6 configuratie  
-task27   OSPF configuratie  
-task28   Routing informatie ophalen (filter)  
-task29   MTU configuratie  
-task30   ACL configuratie + toepassen op interface  
-task31   Speed / duplex instellen (niet werkend)  
-task32   Clear counters (YANG action / RPC)  
-task33   Capabilities ophalen / tonen (via script)  
-task34   OpenConfig configuratie  
-task35   Full deployment (gecombineerde configuratie)  
-task36   End-to-end deployment  
+task1       Interface description instellen
+task2       Interface inschakelen (no shutdown)  
+task3       IPv4 configuratie  
+task4       IPv4 verwijderen  
+task5       Loopback interface aanmaken  
+task6       Loopback IPv4 configuratie  
+task7       Hostname instellen  
+task8       DNS configuratie  
+task9       NTP configuratie  
+task10      Static route configureren  
+task11      Static route verwijderen  
+task12      MOTD banner instellen  
+task13      Lokale gebruiker aanmaken  
+task14      User password aanpassen  
+task15      VLAN aanmaken  
+task16      VLAN interface configureren (SVI)  
+task17      SNMP configuratie  
+task18      Interface statistics ophalen (filter)  
+task19      Running config ophalen  
+task20      Configuratie valideren / aanpassen  
+task21      Candidate datastore + commit  
+task22      Datastore lock / unlock  
+task23      Meerdere interfaces configureren (multi-RPC)  
+task24      Specifieke actie op payload (script/logica)  
+task25      Specifieke actie op payload (script/logica)  
+task26      IPv6 configuratie  
+task27      OSPF configuratie  
+task28      Routing informatie ophalen (filter)  
+task29      MTU configuratie  
+task30      ACL configuratie + toepassen op interface  
+task31      Speed / duplex instellen (niet werkend)  
+task32      Clear counters (YANG action / RPC)  
+task33      Capabilities ophalen / tonen (via script)  
+task34      OpenConfig configuratie  
+task35      Full deployment (gecombineerde configuratie)  
+task36      End-to-end deployment  
 
 
 Opmerking:
