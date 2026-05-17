@@ -13,6 +13,8 @@ from urllib.parse import parse_qs
 import difflib
 from tasks import *
 from filters import *
+from ncclient.xml_ import to_ele
+import requests
 
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
@@ -153,6 +155,12 @@ def interpret_netconf_response(response, task_name):
         print("❌ PARSE ERROR:", e)
         add_json_log(task_name, "PARSE_ERROR", str(e))
 
+
+def fetch_from_github():
+    url = "https://raw.githubusercontent.com/YOUR_USER/YOUR_REPO/main/36_end_to_end_config.xml"
+    r = requests.get(url)
+    return r.text
+
 # -----------------------------
 # TASK SELECTOR (NIETS VERWIJDERD)
 # -----------------------------
@@ -182,16 +190,18 @@ def select_task(task_name):
     elif task_name == "task23": return "CONFIG", task23_multi_if()
     elif task_name == "task24": return "ROLLBACK", None
     elif task_name == "task25": return "COMPARE", None
-    elif task_name == "task26": return "CONFIG", task26_ipv6()
+    elif task_name == "task26": return "CONFIG", task_ipv6()
     elif task_name == "task27": return "CONFIG", task27_ospf()
     elif task_name == "task28": return "CONFIG", task28_routing()
     elif task_name == "task29": return "CONFIG", task29_MTU()
-    elif task_name == "task30": return "CONFIG", task30_ACL()
+    elif task_name == "task30": return "CONFIG", task30_acl()
     elif task_name == "task31": return "CONFIG", task31_speed_duplex()
-    elif task_name == "task32": return "CONFIG", task32_yang_action()
+    elif task_name == "task32": return "ACTION", None
     elif task_name == "task33": return "CAPABILITIES", None
     elif task_name == "task34": return "CONFIG", task34_openCONFIG()
     elif task_name == "task35": return "CONFIG", task35_full_deploy()
+    elif task_name == "task36": return "CONFIG", task36_end_to_end()
+    elif task_name == "fetch_github": return "CONFIG", fetch_from_github()
     elif task_name == "get_hostname": return "GET", get_hostname()
     elif task_name == "get_capabilities": return "CAPABILITIES", None
     else:
@@ -404,6 +414,13 @@ def main():
 
                 if not found_diff:
                     print("✅ No differences found (configs are identical)")
+                
+            elif mode == "ACTION":
+                print("🧹 Clearing interface counters...")
+
+                rpc = task32_yang_actions()
+
+                response = m.dispatch(to_ele(rpc))
 
             # RESPONSE handling
             if response is not None:

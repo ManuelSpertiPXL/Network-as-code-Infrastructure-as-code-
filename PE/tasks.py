@@ -399,35 +399,127 @@ def tak26_ipv6():
 def task27_ospf():
          return """
 <config>
-      <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
-        <router>
-          <ospf>
-            <id>1</id>
-            <network>
-              <ip>192.168.10.0</ip>
-              <mask>0.0.0.255</mask>
-              <area>0</area>
-            </network>
-          </ospf>
-        </router>
-      </native>
-    </config>
+  <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
+    <interface>
+      <Loopback>
+        <name>66</name>
+        <description>Loopback OSPF 1</description>
+        <ip>
+          <address>
+            <primary>
+              <address>17.17.17.17</address>
+              <mask>255.255.255.0</mask>
+            </primary>
+          </address>
+        </ip>
+      </Loopback>
+      <Loopback>
+        <name>99</name>
+        <description>Loopback OSPF 2</description>
+        <ip>
+          <address>
+            <primary>
+              <address>19.19.19.19</address>
+              <mask>255.255.255.0</mask>
+            </primary>
+          </address>
+        </ip>
+      </Loopback>
+    </interface>
+    <router>
+      <ospf xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-ospf">
+        <id>1</id>
+        <network>
+          <ip>17.17.17.0</ip>
+          <mask>0.0.0.255</mask>
+          <area>0</area>
+        </network>
+        <network>
+          <ip>19.19.19.0</ip>
+          <mask>0.0.0.255</mask>
+          <area>0</area>
+        </network>
+        <passive-interface>
+          <interface>default</interface>
+        </passive-interface>
+      </ospf>
+    </router>
+  </native>
+</config>
     """
+""" <config>
+  <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
+    <interface>
+      <Loopback>
+        <name>66</name>
+        <description>Loopback OSPF 1</description>
+        <ip>
+          <address>
+            <primary>
+              <address>17.17.17.17</address>
+              <mask>255.255.255.0</mask>
+            </primary>
+          </address>
+        </ip>
+      </Loopback>
+      <Loopback>
+        <name>99</name>
+        <description>Loopback OSPF 2</description>
+        <ip>
+          <address>
+            <primary>
+              <address>19.19.19.19</address>
+              <mask>255.255.255.0</mask>
+            </primary>
+          </address>
+        </ip>
+      </Loopback>
+    </interface>
+    <router>
+      <ospf xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-ospf">
+        <id>1</id>
+        <network>
+          <ip>17.17.17.0</ip>
+          <mask>0.0.0.255</mask>
+          <area>0</area>
+        </network>
+        <network>
+          <ip>19.19.19.0</ip>
+          <mask>0.0.0.255</mask>
+          <area>0</area>
+        </network>
+        <passive-interface>
+          <interface>default</interface>
+        </passive-interface>
+        <passive-interface>
+          <interface>GigabitEthernet0/0/0</interface>
+          <no-passive/>
+        </passive-interface>
+      </ospf>
+    </router>
+  </native>
+</config> """
+
 
 def task28_routing():
          return """
-    <config>
-      <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
-      ...
-      </native>
-    </config>
+    <filter>
+      <routing-state xmlns="urn:ietf:params:xml:ns:yang:ietf-routing"/>
+    </filter>
     """
 
 def task29_MTU():
          return """
     <config>
       <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
-      ...
+        <interface>
+          <GigabitEthernet>
+            <name>0/0/0</name>
+            <ip>
+              <mtu xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" nc:operation="merge">1800</mtu>
+            </ip>
+          </GigabitEthernet>
+        </interface>
       </native>
     </config>
     """
@@ -436,7 +528,37 @@ def task30_acl():
          return """
     <config>
       <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
-      ...
+        <ip>
+          <access-list>
+            <extended xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-acl" xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" nc:operation="merge">
+              <name>met-netconf</name>
+              <access-list-seq-rule>
+                <sequence>10</sequence>
+                <ace-rule>
+                  <action>permit</action>
+                  <protocol>ip</protocol>
+                  <any/>
+                  <dst-any/>
+                </ace-rule>
+              </access-list-seq-rule>
+            </extended>
+          </access-list>
+        </ip>
+        <interface>
+          <GigabitEthernet>
+            <name>0/0/0</name>
+            <ip>
+              <access-group>
+                <in>
+                  <acl>
+                    <acl-name>met-netconf</acl-name>
+                    <in/>
+                  </acl>
+                </in>
+              </access-group>
+            </ip>
+          </GigabitEthernet>
+        </interface>
       </native>
     </config>
     """
@@ -445,37 +567,190 @@ def task31_speed_duplex():
          return """
     <config>
       <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
-      ...
+        <interface>
+          <GigabitEthernet xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" nc:operation="merge">
+            <name>1</name>
+            <speed xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-ethernet" nc:operation="merge">
+              <value-1000 nc:operation="merge"/>
+              <nonegotiate/>
+            </speed>
+            <duplex xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-ethernet" nc:operation="merge">full</duplex>
+          </GigabitEthernet>
+        </interface>
       </native>
     </config>
     """
 
 def task32_yang_actions():
          return """
-    <config>
-      <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
-      ...
-      </native>
-    </config>
+  <clear xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-rpc" xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0">
+    <interface>GigabitEthernet1</interface>
+  </clear>
     """
 
 def task34_openCONFIG():
           return """
-    <config>
-      <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
-      ...
-      </native>
-    </config>
+<config>
+  <interfaces xmlns="http://openconfig.net/yang/interfaces">
+    <interface>
+      <name>Loopback999</name>
+      <config>
+        <name>Loopback999</name>
+        <type xmlns:ianaift="urn:ietf:params:xml:ns:yang:iana-if-type">
+          ianaift:softwareLoopback
+        </type>
+        <enabled>true</enabled>
+        <description>Loopbackvia openconf</description>
+      </config>
+      <subinterfaces>
+        <subinterface>
+          <index>0</index>
+          <ipv4 xmlns="http://openconfig.net/yang/interfaces/ip">
+            <addresses>
+              <address>
+                <ip>9.9.9.9</ip>
+                <config>
+                  <ip>9.9.9.9</ip>
+                  <prefix-length>24</prefix-length>
+                </config>
+              </address>
+            </addresses>
+          </ipv4>
+        </subinterface>
+      </subinterfaces>
+    </interface>
+  </interfaces>
+</config>
     """
 
 def task35_full_deploy():
           return """
-    <config>
-      <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
-      ...
-      </native>
-    </config>
+  <config>
+  <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
+    <ip>
+      <access-list>
+        <extended xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-acl">
+          <name>met-netconf</name>
+          <access-list-seq-rule>
+            <sequence>10</sequence>
+            <ace-rule>
+              <action>permit</action>
+              <protocol>ip</protocol>
+              <any/>
+              <dst-any/>
+            </ace-rule>
+          </access-list-seq-rule>
+        </extended>
+      </access-list>
+    </ip>
+    <interface>
+      <Loopback>
+        <name>66</name>
+        <description>Loopback Service 1</description>
+        <ip>
+          <address>
+            <primary>
+              <address>17.17.17.17</address>
+              <mask>255.255.255.0</mask>
+            </primary>
+          </address>
+        </ip>
+      </Loopback>
+      <Loopback>
+        <name>99</name>
+        <description>Loopback Service 2</description>
+        <ip>
+          <address>
+            <primary>
+              <address>19.19.19.19</address>
+              <mask>255.255.255.0</mask>
+            </primary>
+          </address>
+        </ip>
+      </Loopback>
+    </interface>
+    <ip>
+      <route>
+        <ip-route-interface-forwarding-list>
+          <prefix>0.0.0.0</prefix>
+          <mask>0.0.0.0</mask>
+          <fwd-list>
+            <fwd>10.199.65.100</fwd>
+          </fwd-list>
+        </ip-route-interface-forwarding-list>
+      </route>
+    </ip>
+    <interface>
+      <GigabitEthernet>
+        <name>1</name>
+        <ip>
+          <access-group>
+            <in>
+              <acl>
+                <acl-name>met-netconf</acl-name>
+                <in/>
+              </acl>
+            </in>
+          </access-group>
+        </ip>
+      </GigabitEthernet>
+    </interface>
+  </native>
+</config>
     """
+
+def task36_end_to_end():
+     return """
+<config>
+  <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
+  <hostname>NETCONF-RUNNER-TAAK36</hostname>
+    <interface>
+      <Loopback>
+        <name>66</name>
+        <description>Loopback OSPF 1</description>
+        <ip>
+          <address>
+            <primary>
+              <address>17.17.17.17</address>
+              <mask>255.255.255.0</mask>
+            </primary>
+          </address>
+        </ip>
+      </Loopback>
+      <Loopback>
+        <name>99</name>
+        <description>Loopback OSPF 2</description>
+        <ip>
+          <address>
+            <primary>
+              <address>19.19.19.19</address>
+              <mask>255.255.255.0</mask>
+            </primary>
+          </address>
+        </ip>
+      </Loopback>
+    </interface>
+    <router>
+      <ospf xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-ospf">
+        <id>1</id>
+        <network>
+          <ip>17.17.17.0</ip>
+          <mask>0.0.0.255</mask>
+          <area>0</area>
+        </network>
+        <network>
+          <ip>19.19.19.0</ip>
+          <mask>0.0.0.255</mask>
+          <area>0</area>
+        </network>
+        <passive-interface>
+          <interface>default</interface>
+        </passive-interface>
+      </ospf>
+    </router>
+  </native>
+</config>
+"""
 
 def get_interfaces_and_hostname():
     return """

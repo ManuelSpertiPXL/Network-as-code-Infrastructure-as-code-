@@ -1,0 +1,49 @@
+<config>
+  <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
+  <hostname>NETCONF-GITHUB-TAAK36</hostname>
+    <interface>
+      <Loopback>
+        <name>66</name>
+        <description>Loopback OSPF 1</description>
+        <ip>
+          <address>
+            <primary>
+              <address>17.17.17.17</address>
+              <mask>255.255.255.0</mask>
+            </primary>
+          </address>
+        </ip>
+      </Loopback>
+      <Loopback>
+        <name>99</name>
+        <description>Loopback OSPF 2</description>
+        <ip>
+          <address>
+            <primary>
+              <address>19.19.19.19</address>
+              <mask>255.255.255.0</mask>
+            </primary>
+          </address>
+        </ip>
+      </Loopback>
+    </interface>
+    <router>
+      <ospf xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-ospf">
+        <id>1</id>
+        <network>
+          <ip>17.17.17.0</ip>
+          <mask>0.0.0.255</mask>
+          <area>0</area>
+        </network>
+        <network>
+          <ip>19.19.19.0</ip>
+          <mask>0.0.0.255</mask>
+          <area>0</area>
+        </network>
+        <passive-interface>
+          <interface>default</interface>
+        </passive-interface>
+      </ospf>
+    </router>
+  </native>
+</config>
