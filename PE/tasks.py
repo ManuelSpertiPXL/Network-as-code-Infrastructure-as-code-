@@ -34,7 +34,7 @@ def task3_set_ipv4():
             <ip>
               <address>
                 <primary>
-                  <address xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" nc:operation="merge">10.3.3.3</address>
+                  <address xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" nc:operation="merge">10.3.3.4</address>
                   <mask xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" nc:operation="merge">255.255.255.0</mask>
                 </primary>
               </address>
