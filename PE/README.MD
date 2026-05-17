@@ -86,6 +86,20 @@ JSON logging bevat:
 
 ---
 
+## ✅ Voorbeeld configuratie (ACL via NETCONF)
+
+![ACL config](screenshots/task30_execution.png)
+
+De output toont:
+- verstuurde XML payload (YANG gebaseerd)
+- validatie van de configuratie
+- succesvolle NETCONF RPC-reply (<ok/>)
+- interpretatie van de response (SUCCESS)
+
+Hiermee wordt aangetoond dat configuratie via NETCONF correct wordt toegepast op het toestel.
+
+---
+
 ## 📁 Projectstructuur
 
 ```
