@@ -1,7 +1,0 @@
-    <filter>
-      <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
-        <banner>
-          <motd/>
-        </banner>
-      </native>
-    </filter>

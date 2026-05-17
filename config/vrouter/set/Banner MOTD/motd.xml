@@ -1,9 +1,0 @@
-    <config>
-      <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
-        <banner>
-          <motd>
-            <banner xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" nc:operation="merge">Hallo, dit is ingesteld via py-netconf</banner>
-          </motd>
-        </banner>
-      </native>
-    </config>

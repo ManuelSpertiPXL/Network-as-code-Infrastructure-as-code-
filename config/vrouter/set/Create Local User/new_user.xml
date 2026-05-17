@@ -1,8 +1,0 @@
-    <config>
-      <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
-        <username>
-          <name>Peppi</name>
-          <privilege>15</privilege>
-        </username>
-      </native>
-    </config>

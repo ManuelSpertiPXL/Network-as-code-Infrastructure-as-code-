@@ -1,3 +1,5 @@
+# Geverifieerd te werken op vrouter, if aangepast voor lab
+
 def task1_interface_description():
     return """
     <config>
@@ -11,6 +13,7 @@ def task1_interface_description():
       </native>
     </config>
     """
+# Geverifieerd te werken op vrouter, if aangepast voor lab
 def task2_interface_enable():
     return """
     <config>
@@ -18,12 +21,13 @@ def task2_interface_enable():
         <interface>
           <GigabitEthernet>
             <name>0/0/0</name>
-            <shutdown xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" nc:operation="merge"/>
+            <shutdown xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" nc:operation="delete"/>
           </GigabitEthernet>
         </interface>
       </native>
     </config>
     """
+# Geverifieerd te werken op vrouter, if aangepast voor lab
 def task3_set_ipv4():
     return """
     <config>
@@ -44,6 +48,7 @@ def task3_set_ipv4():
       </native>
     </config>
     """
+# Geverifieerd te werken op vrouter, if aangepast voor lab
 def task4_remove_ipv4():
     return """
     <config>
@@ -62,6 +67,7 @@ def task4_remove_ipv4():
       </native>
     </config>
     """
+# Geverifieerd te werken op vrouter, if aangepast voor lab
 def task5_create_loopback():
     return """
     <config>
@@ -74,6 +80,7 @@ def task5_create_loopback():
       </native>
     </config>
     """
+# Geverifieerd te werken op vrouter, if aangepast voor lab
 def task6_loopback_ip():
     return """
     <config>
@@ -94,6 +101,7 @@ def task6_loopback_ip():
       </native>
     </config>
     """
+# Geverifieerd te werken op vrouter, if aangepast voor lab
 def task7_set_hostname():
     return """
     <config>
@@ -102,6 +110,7 @@ def task7_set_hostname():
       </native>
     </config>
     """
+# Geverifieerd te werken op vrouter, if aangepast voor lab
 def task8_dns():
     return """
     <config>
@@ -115,20 +124,17 @@ def task8_dns():
           </name-server>
         </ip>
       </native>
+    </config>
     """
 def task9_ntp():
     return """
-    <config>
-      <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
-        <ntp>
-          <server xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-ntp">
-            <ip>
-              <source xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" nc:operation="merge">10.199.64.66</source>
-            </ip>
-          </server>
-        </ntp>
-      </native>
-    </config>
+<config>
+  <ntp xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-ntp">
+    <server-list>
+      <ip-address>10.199.64.66</ip-address>
+    </server-list>
+  </ntp>
+</config>
     """
 def task10_static_route():
     return """
@@ -213,8 +219,8 @@ def task15_create_vlan():
       <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
         <vlan>
           <vlan-list>
-            <id>10</id>
-            <name>NETCONF_VLAN</name>
+            <id>31</id>
+            <name>Management</name>
           </vlan-list>
         </vlan>
       </native>
@@ -227,11 +233,11 @@ def task16_vlan_interface():
       <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
         <interface>
           <Vlan>
-            <name>10</name>
+            <name>31</name>
             <ip>
               <address>
                 <primary>
-                  <address>10.10.10.2</address>
+                  <address>1172.17.3.4</address>
                   <mask>255.255.255.0</mask>
                 </primary>
               </address>

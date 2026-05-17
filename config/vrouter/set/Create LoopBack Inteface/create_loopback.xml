@@ -1,9 +1,0 @@
-    <config>
-      <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
-        <interface>
-          <Loopback>
-            <name>222</name>
-          </Loopback>
-        </interface>
-      </native>
-    </config>
