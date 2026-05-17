@@ -4,8 +4,8 @@ def task1_interface_description():
       <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
         <interface>
           <GigabitEthernet>
-            <name>1</name>
-            <description>Configured via NETCONF</description>
+            <name>0/0/0</name>
+            <description xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" nc:operation="merge">Geconfigureerd via netconf en python</description>
           </GigabitEthernet>
         </interface>
       </native>
@@ -17,8 +17,8 @@ def task2_interface_enable():
       <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
         <interface>
           <GigabitEthernet>
-            <name>1</name>
-            <shutdown>false</shutdown>
+            <name>0/0/0</name>
+            <shutdown xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" nc:operation="merge"/>
           </GigabitEthernet>
         </interface>
       </native>
@@ -30,12 +30,12 @@ def task3_set_ipv4():
       <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
         <interface>
           <GigabitEthernet>
-            <name>1</name>
+            <name>0/0/0</name>
             <ip>
               <address>
                 <primary>
-                  <address>192.168.1.1</address>
-                  <mask>255.255.255.0</mask>
+                  <address xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" nc:operation="merge">10.3.3.3</address>
+                  <mask xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" nc:operation="merge">255.255.255.0</mask>
                 </primary>
               </address>
             </ip>
@@ -49,9 +49,14 @@ def task4_remove_ipv4():
     <config>
       <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
         <interface>
-          <GigabitEthernet operation="merge">
-            <name>1</name>
-            <ip operation="delete"/>
+          <GigabitEthernet>
+            <name>0/0/0</name>
+            <ip>
+              <address>
+                <primary nc:operation="remove" xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0">
+                </primary>
+              </address>
+            </ip>
           </GigabitEthernet>
         </interface>
       </native>
@@ -62,8 +67,8 @@ def task5_create_loopback():
     <config>
       <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
         <interface>
-          <Loopback>
-            <name>10</name>
+          <Loopback xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" nc:operation="merge">
+            <name>33</name>
           </Loopback>
         </interface>
       </native>
@@ -74,13 +79,13 @@ def task6_loopback_ip():
     <config>
       <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
         <interface>
-          <Loopback>
-            <name>10</name>
+          <Loopback xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" nc:operation="merge">
+            <name>33</name>
             <ip>
               <address>
                 <primary>
-                  <address>10.10.10.1</address>
-                  <mask>255.255.255.255</mask>
+                  <address nc:operation="merge">10.10.10.10</address>
+                  <mask nc:operation="merge">255.255.255.0</mask>
                 </primary>
               </address>
             </ip>
@@ -93,7 +98,7 @@ def task7_set_hostname():
     return """
     <config>
       <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
-        <hostname>NETCONF-Router</hostname>
+        <hostname xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" nc:operation="merge">LAB-RA03-C01-R01</hostname>
       </native>
     </config>
     """
@@ -102,20 +107,24 @@ def task8_dns():
     <config>
       <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
         <ip>
-          <name-server>8.8.8.8</name-server>
+          <name-server>
+            <vrf xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" nc:operation="merge">
+              <word>google</word>
+              <server-ip nc:operation="merge">10.199.64.66</server-ip>
+            </vrf>
+          </name-server>
         </ip>
       </native>
-    </config>
     """
 def task9_ntp():
     return """
     <config>
       <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
         <ntp>
-          <server>
-            <server-list>
-              <ip-address>192.168.1.100</ip-address>
-            </server-list>
+          <server xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-ntp">
+            <ip>
+              <source xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" nc:operation="merge">10.199.64.66</source>
+            </ip>
           </server>
         </ntp>
       </native>
@@ -123,26 +132,41 @@ def task9_ntp():
     """
 def task10_static_route():
     return """
-    <config>
-      <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
-        <ip>
-          <route>
-            <ip-route-interface-forwarding-list>
-              <prefix>10.0.0.0</prefix>
-              <mask>255.255.255.0</mask>
-              <fwd-list>
-                <fwd>192.168.1.254</fwd>
-              </fwd-list>
-            </ip-route-interface-forwarding-list>
-          </route>
-        </ip>
-      </native>
-    </config>
+  <config>
+    <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
+      <ip>
+        <route>
+          <ip-route-interface-forwarding-list xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" nc:operation="merge">
+            <prefix>0.0.0.0</prefix>
+            <mask>0.0.0.0</mask>
+            <fwd-list>
+              <fwd>10.199.65.100</fwd>
+            </fwd-list>
+          </ip-route-interface-forwarding-list>
+        </route>
+      </ip>
+    </native>
+  </config>
     """
 
 def task11_no_static_route():
     return """
-    <config>"""
+  <config>
+    <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
+      <ip>
+        <route>
+          <ip-route-interface-forwarding-list xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" nc:operation="delete">
+            <prefix>0.0.0.0</prefix>
+            <mask>0.0.0.0</mask>
+            <fwd-list>
+              <fwd>10.199.65.100</fwd>
+            </fwd-list>
+          </ip-route-interface-forwarding-list>
+        </route>
+      </ip>
+    </native>
+  </config>
+    """
 
 def task12_motd():
     return """
@@ -150,7 +174,7 @@ def task12_motd():
       <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
         <banner>
           <motd>
-            <banner>Welcome to the NETCONF Router</banner>
+            <banner xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" nc:operation="merge">Welkom, via netconf</banner>
           </motd>
         </banner>
       </native>
@@ -161,9 +185,9 @@ def task13_create_local_user():
     return """
     <config>
       <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
-        <username>
-          <name>netconf-user</name>
-          <password>netconf-pass</password>
+        <username xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" nc:operation="merge">
+          <name>pippo</name>
+          <privilege nc:operation="merge">15</privilege>
         </username>
       </native>
     </config>
@@ -172,9 +196,12 @@ def task14_mod_user_password():
     return """
     <config>
       <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
-        <username>
-          <name>netconf-user</name>
-          <password>new-netconf-pass</password>
+        <username xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" nc:operation="merge">
+          <name>pippo</name>
+          <privilege>15</privilege>
+          <password>
+            <password>declown</password>
+          </password>
         </username>
       </native>
     </config>
@@ -220,32 +247,44 @@ def task17_snmp():
       <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
         <snmp-server>
           <community>
-            <name>public</name>
-            <authorization>ro</authorization>
+            <COMMUNITY>
+              <name>public</name>
+              <ro/>
+            </COMMUNITY>
+            <COMMUNITY>
+              <name>private</name>
+              <rw/>
+            </COMMUNITY>
           </community>
         </snmp-server>
       </native>
     </config>
     """
-def task18_if_stats():
-    return """
-    <filter>
-      <interfaces-state xmlns="urn:ietf:params:xml:ns:yang:ietf-interfaces">
-        <interface>
-          <name/>
-          <statistics/>
-        </interface>
-      </interfaces-state>
-    </filter>
-    """
 def task19_running_config():
-    return None  # geen filter nodig, we willen alles zien
+    return """
+    <nc:filter type="subtree" xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0">
+      <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native" xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0">
+      </native>
+    </nc:filter>
+    """
 
 def task20_val_config():
     return """
     <config>
       <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
-        ...
+        <interface>
+          <Loopback xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" nc:operation="merge">
+            <name>33</name>
+            <ip>
+              <address>
+                <primary>
+                  <address nc:operation="merge">20.20.20.20</address>
+                  <mask nc:operation="merge">255.255.255.0</mask>
+                </primary>
+              </address>
+            </ip>
+          </Loopback>
+        </interface>
       </native>
     </config>
     """
@@ -253,7 +292,19 @@ def task21_ds_candidate_com_if():
     return """
     <config>
       <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
-      ...
+        <interface>
+          <Loopback xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" nc:operation="merge">
+            <name>33</name>
+            <ip>
+              <address>
+                <primary>
+                  <address nc:operation="merge">21.21.21.21</address>
+                  <mask nc:operation="merge">255.255.255.0</mask>
+                </primary>
+              </address>
+            </ip>
+          </Loopback>
+        </interface>
       </native>
     </config>
     """
@@ -262,7 +313,19 @@ def task22_ds_lock_unlock():
         return """
     <config>
       <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
-      ...
+        <interface>
+          <Loopback xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" nc:operation="merge">
+            <name>33</name>
+            <ip>
+              <address>
+                <primary>
+                  <address nc:operation="merge">22.22.22.22</address>
+                  <mask nc:operation="merge">255.255.255.0</mask>
+                </primary>
+              </address>
+            </ip>
+          </Loopback>
+        </interface>
       </native>
     </config>
     """
@@ -271,7 +334,32 @@ def task23_multi_if():
         return """
     <config>
       <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
-      ...
+        <interface>
+          <Loopback xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" nc:operation="merge">
+            <name>66</name>
+            <description>Multi-if-1-rpc</description>
+            <ip>
+              <address>
+                <primary>
+                  <address>66.66.66.66</address>
+                  <mask>255.255.255.0</mask>
+                </primary>
+              </address>
+            </ip>
+          </Loopback>
+          <Loopback xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" nc:operation="merge">
+            <name>99</name>
+            <description>Multi-if-1-rpc</description>
+            <ip>
+              <address>
+                <primary>
+                  <address>99.99.99.99</address>
+                  <mask>255.255.255.0</mask>
+                </primary>
+              </address>
+            </ip>
+          </Loopback>
+        </interface>
       </native>
     </config>
     """
@@ -285,29 +373,43 @@ def task24_rollback():
     </config>
     """
 
-def task25_diff_run_cand():
-        return """
-    <config>
-      <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
-      ...
-      </native>
-    </config>
-    """
 
 def tak26_ipv6():
          return """
     <config>
       <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
-      ...
+        <interface>
+          <Loopback xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" nc:operation="merge">
+            <name>777</name>
+            <description>IPv6 instellen via netconf</description>
+            <ipv6>
+              <address>
+                <link-local-address>
+                  <address>FE80::1</address>
+                  <link-local nc:operation="merge"/>
+                </link-local-address>
+              </address>
+            </ipv6>
+          </Loopback>
+        </interface>
       </native>
     </config>
     """
 
 def task27_ospf():
          return """
-    <config>
+<config>
       <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
-      ...
+        <router>
+          <ospf>
+            <id>1</id>
+            <network>
+              <ip>192.168.10.0</ip>
+              <mask>0.0.0.255</mask>
+              <area>0</area>
+            </network>
+          </ospf>
+        </router>
       </native>
     </config>
     """

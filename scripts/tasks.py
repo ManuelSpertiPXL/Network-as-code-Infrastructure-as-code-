@@ -2,7 +2,7 @@ def task7_hostname():
     return """
     <config>
       <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
-        <hostname>NETCONF-LAB</hostname>
+        <hostname xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" nc:operation="merge">MilkyWay</hostname>
       </native>
     </config>
     """
@@ -41,11 +41,11 @@ def task10_static_route():
       </native>
     </config>
     """
-def set_hostname():
+ def set_hostname():
     return """
     <config>
       <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
         <hostname>MILKYWAY</hostname>
       </native>
     </config>
-    """
+    """ """

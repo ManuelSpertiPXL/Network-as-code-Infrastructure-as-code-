@@ -1,5 +1,23 @@
 # filters.py
 
+def task18_if_stats():
+    return """
+    <filter type="subtree">
+      <interfaces-state xmlns="urn:ietf:params:xml:ns:yang:ietf-interfaces">
+        <interface>
+          <name>GigabitEthernet0/0/0</name>
+          <statistics/>
+        </interface>
+      </interfaces-state>
+    </filter>s
+    """
+def task28_routing():
+    return """
+    <filter>
+      <routing-state xmlns="urn:ietf:params:xml:ns:yang:ietf-routing">
+      </routing-state>
+    </filter>
+    """
 def get_interfaces_filter():
     return """
     <filter>

@@ -415,6 +415,25 @@ else:
 PORT = 830
 
 # -----------------------------
+# VALIDATION HELPER 🔥
+# -----------------------------
+def validate_change(m, filter_xml=None):
+    print("\n🔎 VALIDATING CONFIG...")
+
+    # CONFIG CHECK
+    config = m.get_config(source="running", filter=filter_xml)
+    print("\n✔ Running config:")
+    print(pretty_xml(str(config)))
+
+    # RUNTIME CHECK
+    if filter_xml:
+        state = m.get(filter=filter_xml)
+        print("\n🚦 Operational state:")
+        print(pretty_xml(str(state)))
+
+    return config
+
+# -----------------------------
 # MAIN
 # -----------------------------
 # Hier worden de taken gedefinieerd die kunnen worden uitgevoerd, met bijbehorende XML payloads of filters.
@@ -448,8 +467,6 @@ def main():
         # 🔥 detect candidate support
         use_candidate = any(":candidate" in cap for cap in m.server_capabilities)
 
-        
-
         # 🔥 store selection
         if store_mode == "candidate":
             if not use_candidate:
@@ -467,59 +484,56 @@ def main():
         print(f"📌 Target datastore: {target_ds}")
 
         
-        for task in tasks:
-            # Hier selecteren we de mode (GET, GET_CONFIG, CONFIG) en de data (XML payload of filter) voor de huidige taak, door de select_task functie aan te roepen.
-            mode, data = select_task(task)
-            # Als de taak onbekend is (mode is None), slaan we deze taak over en gaan we door naar de volgende taak in de lijst.
-            if mode is None:
-                continue
-            # Hier tonen we de payload die we gaan gebruiken voor deze taak, zodat we kunnen zien wat er precies naar het apparaat gestuurd gaat worden.
-            print(f"\n🚀 Running task: {task}")
+    for task in tasks:
+        response = None
 
-            
-            # ✅ capabilities speciale case
-            if mode == "CAPABILITIES":
-                print("\n📡 DEVICE CAPABILITIES:\n")
-                print(get_capabilities_table(m))
-                continue
+        mode, data = select_task(task)
 
+        if mode is None:
+            continue
 
-            # ✅ payload + YANG
-            # We tonen de payload die we gaan gebruiken voor deze taak, en ook welke YANG modules er in de payload gebruikt worden, zodat we een beter inzicht hebben in wat er precies gebeurt bij deze taak.
-            if data:
-                show_payload(task, data)
-                show_yang_modules(task, data)
+    print(f"\n🚀 Running task: {task}")
 
-            if mode == "GET":
-                response = m.get(filter=data)
+    if mode == "GET":
+        response = m.get(filter=data)
 
-            elif mode == "GET_CONFIG":
-                response = m.get_config(source="running")
+    elif mode == "GET_CONFIG":
+        response = m.get_config(source="running")
 
-            elif mode == "CONFIG":
-                if use_candidate:
-                    m.lock(target="candidate")
+    elif mode == "CONFIG":
+        if use_candidate:
+            m.lock(target="candidate")
 
-                try:
-                    response = m.edit_config(
-                        target=target_ds,
-                        config=data
-                    )
-                    if use_candidate:
-                        m.commit()
-                finally:
-                    if use_candidate:
-                        m.unlock(target="candidate")
+        try:
+            response = m.edit_config(
+                target=target_ds,
+                config=data
+            )
 
-            print("\n📥 RESPONSE:")
-            print(pretty_xml(str(response)))
-            # Hier proberen we de response te interpreteren, om te zien of de operatie succesvol was, of dat er een fout is opgetreden, en wat de details van die fout zijn als dat het geval is.
+            if use_candidate:
+                m.validate(source='candidate')
+                m.commit(confirmed=True, timeout=60)
+            else:
+                m.commit()
 
-            interpret_netconf_response(response, task)
+            validate_change(m)
 
-    save_json()
-    print(f"\n📁 Logs: {LOG_FILE}")
-    print(f"📄 JSON: {JSON_FILE}")
+            if use_candidate:
+                m.commit()
+
+        finally:
+            if use_candidate:
+                m.unlock(target="candidate")
+
+    if response is not None:
+        print("\n📥 RESPONSE:")
+        print(pretty_xml(str(response)))
+        interpret_netconf_response(response, task)      
+
+  
+        save_json()
+        print(f"\n📁 Logs: {LOG_FILE}")
+        print(f"📄 JSON: {JSON_FILE}")
 
 # -----------------------------
 # START
