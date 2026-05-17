@@ -86,6 +86,8 @@ fetch_from_github()
 - logs/
     - netconf_<date>.log
     - netconf_output.json
+- screenshots/
+    - get_hostname.png
 
 ### ⚙️ Vereisten
 Python packages
