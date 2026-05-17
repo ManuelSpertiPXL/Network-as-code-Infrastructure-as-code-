@@ -157,7 +157,7 @@ def interpret_netconf_response(response, task_name):
 
 
 def fetch_from_github():
-    url = "https://raw.githubusercontent.com/YOUR_USER/YOUR_REPO/main/36_end_to_end_config.xml"
+    url = "https://raw.githubusercontent.com/ManuelSpertiPXL/Network-as-code-Infrastructure-as-code-/refs/heads/main/PE/36_end_to_end_config.xml"
     r = requests.get(url)
     return r.text
 
@@ -321,9 +321,12 @@ def main():
 
             print(f"\n🚀 Running task: {task}")
 
-            if data is not None:
+            if data and data.strip().startswith("<"):
                 show_payload(task, data)
                 show_yang_modules(task, data)
+            else:
+                print("⚠️ GitHub gaf geen geldige XML terug")
+                print(data[:200])
 
             if mode == "GET":
                 response = m.get(filter=data)
