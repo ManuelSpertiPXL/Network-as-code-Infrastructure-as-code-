@@ -272,8 +272,8 @@ def validate_change(m, filter_xml=None):
 # MAIN
 # -----------------------------
 def main():
-    store_mode = sys.argv[2] if len(sys.argv) > 2 else "auto"
-    tasks = sys.argv[3:] if len(sys.argv) > 3 else ["get_hostname"]
+    store_mode = sys.argv[2] if len(sys.argv) > 1 else "auto"
+    tasks = sys.argv[3:] if len(sys.argv) > 2 else ["get_hostname"]
     backup_config = None
     print(f"DEBUG tasks: {tasks}")
 
