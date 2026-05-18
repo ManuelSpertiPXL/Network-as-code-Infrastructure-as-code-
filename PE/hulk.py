@@ -21,8 +21,8 @@ sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 # -----------------------------
 # LOGGING
 # -----------------------------
-LOG_FILE = f"logs/netconf_{datetime.now().date()}.log"
-JSON_FILE = "logs/netconf_output.json"
+LOG_FILE = f"PE/logs/netconf_{datetime.now().date()}.log"
+JSON_FILE = "PE/logs/netconf_output.json"
 os.makedirs("logs", exist_ok=True)
 
 json_output = []

@@ -19,7 +19,7 @@ jobs:
       run: pip install -r PE/netconf-hulk-requirements.txt
 
     - name: Run NETCONF script (PE/hulk.py)
-      run: python PE/hulk.py vrouter auto task36
+      run: python PE/hulk.py
 env:
   VROUTER_IP: ${{ secrets.VROUTER_IP }}
   VROUTER_USER: ${{ secrets.VROUTER_USER }}
