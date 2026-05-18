@@ -1,6 +1,6 @@
 <config>
   <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
-  <hostname>NETCONF-GITHUB-TAAK36</hostname>
+  <hostname>NETCONF-GITHUB-TAAK36-FETCH</hostname>
     <interface>
       <Loopback>
         <name>66</name>
