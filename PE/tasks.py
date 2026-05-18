@@ -91,7 +91,7 @@ def task6_loopback_ip():
             <ip>
               <address>
                 <primary>
-                  <address nc:operation="merge">10.10.10.10</address>
+                  <address nc:operation="merge">10.10.10.20</address>
                   <mask nc:operation="merge">255.255.255.0</mask>
                 </primary>
               </address>
