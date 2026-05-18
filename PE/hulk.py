@@ -236,7 +236,7 @@ USER = "manuel"
 PASS = "student@pxl!" """
 # In plaats van hardcoded waarden te gebruiken, worden de verbindingsgegevens nu opgehaald uit omgevingsvariabelen.
 # Dit maakt het script flexibeler en veiliger, omdat gevoelige informatie zoals wachtwoorden niet in de code zelf hoeft te worden opgeslagen.
-device = sys.argv[1] if len(sys.argv) > 1 else "vrouter"
+device = sys.argv[1] if len(sys.argv) > 1 else "labrouter"
 # Op basis van het opgegeven apparaat worden de juiste verbindingsgegevens opgehaald uit de omgevingsvariabelen.
 # Er is ook een optie om verbinding te maken met een labrouter of labswitch, waarbij de verbindingsgegevens ook uit omgevingsvariabelen worden gehaald.
 if device == "vrouter":
@@ -273,7 +273,7 @@ def validate_change(m, filter_xml=None):
 # -----------------------------
 def main():
     store_mode = sys.argv[2] if len(sys.argv) > 1 else "auto"
-    tasks = sys.argv[3:] if len(sys.argv) > 2 else ["fetch_github"]
+    tasks = sys.argv[3:] if len(sys.argv) > 2 else ["task36"]
     backup_config = None
     print(f"DEBUG tasks: {tasks}")
 
