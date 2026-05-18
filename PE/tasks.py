@@ -106,7 +106,7 @@ def task7_set_hostname():
     return """
     <config>
       <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
-        <hostname xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" nc:operation="merge">LAB-RA03-C01-R01</hostname>
+        <hostname xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" nc:operation="merge">VIA GIT</hostname>
       </native>
     </config>
     """
